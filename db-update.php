@@ -23,7 +23,7 @@ function update_database() {
 		// Reread the file to see if another request did the update while we were waiting on the lock
 		$prefix = '<?php $version = ';
 		$content = fread($fp, 1e6);
-		$rechecked_version = 1 * substr($content, strlen($prefix), -1);
+		$rechecked_version = intval(substr($content, strlen($prefix), -1));
 		if($rechecked_version >= $new_version) { return false; }
 		
 		// Run the updates
@@ -38,8 +38,9 @@ function update_database() {
 				$stmt->execute(['diff_index' => $i, 'applied_at' => date("Y-m-d H:i:s")]);
 				
 				// Update the version file
+				$run = $i + 1;
 				fseek($fp, 0);
-				fwrite($fp, "$prefix$i;");
+				fwrite($fp, "$prefix$run;");
 			}
 		} catch(Exception $e) {
 			error_log($e->getMessage(), ERROR);
