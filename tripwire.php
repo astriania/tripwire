@@ -11,6 +11,8 @@ $startTime = microtime(true);
 require_once('config.php');
 require_once('settings.php');
 require_once('masks.inc.php');
+require_once('db.php');
+require_once('db-update.php');
 require('lib.inc.php');
 
 $system = $_REQUEST['system'];

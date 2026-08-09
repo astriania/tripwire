@@ -1,0 +1,64 @@
+<?php
+function update_database() {	
+	global $db_update_diffs, $mysql_update, $mysql;
+	
+	$version = 0;
+
+	$version_file = dirname( __FILE__ ) . "/cache/db-update-state.php";
+	if ( file_exists( $version_file ) ) {
+		include $version_file;
+	}
+
+	$new_version = count($db_update_diffs);
+	if($new_version > $version) {
+		// May need an update.
+		if(!isset($mysql_update)) {
+			die('Tripwire\'s database needs to be updated, but no update connection is configured.');
+		}
+		
+		// Use the version file itself as a lock as well
+		$fp = fopen($version_file, 'c+');
+		flock($fp, LOCK_EX);
+		
+		// Reread the file to see if another request did the update while we were waiting on the lock
+		$prefix = '<?php $version = ';
+		$content = fread($fp, 1e6);
+		$rechecked_version = 1 * substr($content, strlen($prefix), -1);
+		if($rechecked_version >= $new_version) { return false; }
+		
+		// Run the updates
+		// You would expect this to be in a transaction, but in MySQL, create/alter queries break a transaction anyway
+		try {
+			for($i = $version; $i < $new_version; $i++) {
+				$diff = $db_update_diffs[$i];
+				
+				$stmt = $mysql_update->prepare($diff);
+				$stmt->execute();	
+				$stmt = $mysql_update->prepare('insert into update_history (diff_index, applied_at) values (:diff_index, :applied_at) on duplicate key update diff_index=diff_index');
+				$stmt->execute(['diff_index' => $i, 'applied_at' => date("Y-m-d H:i:s")]);
+				
+				// Update the version file
+				fseek($fp, 0);
+				fwrite($fp, "$prefix$i;");
+			}
+		} catch(Exception $e) {
+			error_log($e->getMessage(), ERROR);
+			die('Error attempting to apply DB updates. Please ask your Tripwire admin to check database config.');
+		}		
+	} else { return false; }
+}
+
+$db_update_diffs = [
+		'CREATE TABLE if not exists `update_history` (
+			`diff_index` int PRIMARY KEY,
+			`applied_at` TIMESTAMP NOT NULL
+		)',
+
+];
+
+// Don't retry in the same session, to avoid reading the file every time
+if(!($_SESSION['applied_db_updates'] ?? false)) {
+	update_database();
+	//$_SESSION['applied_db_updates'] = true;
+}
+?>
