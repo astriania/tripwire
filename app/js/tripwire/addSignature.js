@@ -26,7 +26,7 @@ tripwire.makeSigInfo = function(sig, wormhole) {
 		leadsTo: leadsTo,
 		wormhole: wormhole,
 		formattedType: (wormhole[wormhole.parent+"ID"] == sig.id ? wormholeTypeText : (wormhole.parent ? "[" + wormholeTypeText + "]" : "")),
-		lifeText: { critical: 'EOL', stable: 'Stable' }[wormhole.life] || wormhole.life,
+		lifeText: { '<1h': '<1h', critical: 'EOL', stable: 'Stable' }[wormhole.life] || wormhole.life,
 	}
 }
 
@@ -79,7 +79,7 @@ tripwire.addSig = function(add, option, disabled) {
     $("#sigTable").append(tr);
 
     // Add counter
-    if (wormhole.life == "critical") {
+    if (wormhole.life != "stable") {
         $(tr).find('span[data-age]').countdown({until: moment.utc(add.lifeLeft).toDate(), onExpiry: this.pastEOL, alwaysExpire: true, compact: true, format: this.ageFormat, serverSync: this.serverTime.getTime})
             // .countdown('pause')
             .addClass('critical')

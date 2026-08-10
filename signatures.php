@@ -104,7 +104,7 @@ class wormhole {
     protected $secondaryID = null;
     protected $type = null;
     protected $parent = ['initial', 'secondary'];
-    protected $life = ['stable', 'critical'];
+    protected $life = ['stable', 'critical', '<1h'];
     protected $mass = ['stable', 'destab', 'critical'];
     protected $maskID = 0;
 
@@ -145,7 +145,7 @@ class wormhole {
                 $this->parent = in_array(strtolower($value), ['initial', 'secondary', null]) ? strtolower($value) : $this->parent;
                 break;
             case 'life':
-                $this->life = in_array(strtolower($value), ['stable', 'critical']) ? strtolower($value) : $this->life;
+                $this->life = in_array(strtolower($value), ['stable', 'critical', '<1h']) ? strtolower($value) : $this->life;
                 break;
             case 'mass':
                 $this->mass = in_array(strtolower($value), ['stable', 'destab', 'critical']) ? strtolower($value) : $this->mass;
@@ -547,16 +547,27 @@ if (isset($_POST['signatures'])) {
                             list($result, $wormhole, $msg) = fetchWormhole($request['wormhole']['id'], $mysql);
                             if ($result && $wormhole) {
                                 // Set wormhole to/from critical life
-                                if (isset($request['wormhole']['life']) && $wormhole->life != $request['wormhole']['life'] && $request['wormhole']['life'] == 'critical') {
-                                    $signature->lifeLeft = date('Y-m-d H:i:s', strtotime('4 hour'));
-                                    $signature2->lifeLeft = date('Y-m-d H:i:s', strtotime('4 hour'));
-                                    updateSignature($signature, $mysql);
-                                    updateSignature($signature2, $mysql);
-                                } else if (isset($request['wormhole']['life']) && $wormhole->life != $request['wormhole']['life'] && $request['wormhole']['life'] == 'stable') {
-                                    $signature->lifeLeft = date('Y-m-d H:i:s', strtotime('+'.$signature->lifeLength.' seconds', strtotime($signature->lifeTime)));
-                                    $signature2->lifeLeft = date('Y-m-d H:i:s', strtotime('+'.$signature2->lifeLength.' seconds', strtotime($signature2->lifeTime)));
-                                    updateSignature($signature, $mysql);
-                                    updateSignature($signature2, $mysql);
+                                if (isset($request['wormhole']['life']) && $wormhole->life != $request['wormhole']['life']) {
+									switch($request['wormhole']['life']) {
+										case '<1h':
+											$signature->lifeLeft = date('Y-m-d H:i:s', strtotime('1 hour'));
+											$signature2->lifeLeft = date('Y-m-d H:i:s', strtotime('1 hour'));
+											updateSignature($signature, $mysql);
+											updateSignature($signature2, $mysql);
+											break;
+										case 'critical':
+											$signature->lifeLeft = date('Y-m-d H:i:s', strtotime('4 hour'));
+											$signature2->lifeLeft = date('Y-m-d H:i:s', strtotime('4 hour'));
+											updateSignature($signature, $mysql);
+											updateSignature($signature2, $mysql);
+											break;
+										case 'stable':
+											$signature->lifeLeft = date('Y-m-d H:i:s', strtotime('+'.$signature->lifeLength.' seconds', strtotime($signature->lifeTime)));
+											$signature2->lifeLeft = date('Y-m-d H:i:s', strtotime('+'.$signature2->lifeLength.' seconds', strtotime($signature2->lifeTime)));
+											updateSignature($signature, $mysql);
+											updateSignature($signature2, $mysql);
+											break;
+									}
                                 }
 
                                 foreach ($request['wormhole'] AS $property => $value) {

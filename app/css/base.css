@@ -116,6 +116,8 @@ body .nullsec, body .critical {
 
 body .triglavian { color: #FF2060; }
 
+body .supercritical { color: #F000FF; }
+
 .blue-loot, .blue-loot .hisec { color: #6060f0; }
 
 .jumps {

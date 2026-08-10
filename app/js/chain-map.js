@@ -439,6 +439,7 @@ var chain = new function() {
 			// Connection modifiers
 			var modifiers = [];			
 			if (node.life == "critical") { modifiers.push('eol'); }
+			else if (node.life == "<1h") { modifiers.push('eol-1h'); }
 			if (node.mass == "critical") { modifiers.push('critical'); }
 			else if (node.mass == "destab") { modifiers.push('destab'); }
 			

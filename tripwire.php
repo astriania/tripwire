@@ -259,10 +259,11 @@ $system = $_REQUEST['system'];
 					<i id="show-favorite" data-icon="star" data-tooltip="Add favorite systems to chain"></i>
 					<i id="show-chainLegend" data-tooltip="<table id='guide'>
 						<tr><td><div class='guide stable'></td><td>Stable</td><th>Auras</th></tr>
-						<tr><td><div class='guide eol'></div></td><td>End of Life</td><td><div class='guide aura jm-5kt frig'></div></td><td>Small</td></tr>
-						<tr><td><div class='guide destab'></div></td><td>Mass Destabbed</td><td><div class='guide aura jm-62kt'></div></td><td>Medium</td></tr>
-						<tr><td><div class='guide critical'></div></td><td>Mass Critical</td><td><div class='guide aura jm-375kt'></div></td><td>Large</td></tr>
-						<tr><td><div class='guide frig'></div></td><td>Frigate</td><td><div class='guide aura jm-2000kt'></div></td><td>X-Large</td></tr>
+						<tr><td><div class='guide eol'></div></td><td>End of Life (&lt;4h)</td><td><div class='guide aura jm-5kt frig'></div></td><td>Small</td></tr>
+						<tr><td><div class='guide eol-1h'></div></td><td>Expiring (&lt;1h)</td><td><div class='guide aura jm-62kt'></div></td><td>Medium</td></tr>
+						<tr><td><div class='guide destab'></div></td><td>Mass Destabbed</td><td><div class='guide aura jm-375kt'></div></td><td>Large</td></tr>
+						<tr><td><div class='guide critical'></div></td><td>Mass Critical</td><td><div class='guide aura jm-2000kt'></div></td><td>X-Large</td></tr>
+						<tr><td><div class='guide frig'></div></td><td>Frigate</td><td></td></tr>
 					</table>">&equiv;</i>
 					<span>|</span>
 					<i id="hot-jump" data-icon="prop-mod" data-tooltip="Jumping hot (prop on)"></i>
@@ -440,7 +441,9 @@ $system = $_REQUEST['system'];
 						<input type="radio" class="mini-selector" name="wormholeLife" id="wormholeLifeStable"  value="stable"/>
 						<label for="wormholeLifeStable" class="stable">Stable</label>
 						<input type="radio" class="mini-selector" name="wormholeLife" id="wormholeLifeEOL"  value="critical"/>
-						<label for="wormholeLifeEOL" class="critical">EOL</label>
+						<label for="wormholeLifeEOL" class="critical">EOL</label>	
+						<input type="radio" class="mini-selector" name="wormholeLife" id="wormholeLife1h"  value="<1h"/>
+						<label for="wormholeLife1h" class="supercritical">&lt;1h</label>
 					</div>
 					<div class="row">
 						<span class="label">Mass:</span>

@@ -106,6 +106,11 @@ div.loop .nodeIcons, div.loop .nodeType, div.loop .statics, div.loop .nodeActivi
 	border-width: 1px;
 }
 
+#chainMap div.node.eol-1h-chain {
+	border-color: #F000FF;
+	border-width: 1px;
+}
+
 #chainMap .node a {
 	font-weight: normal;
 }
@@ -199,6 +204,7 @@ div.loop .nodeIcons, div.loop .nodeType, div.loop .statics, div.loop .nodeActivi
 .destab, #chainMap .destab, #guide .destab { border-color: #F5B544; }
 .gate, #chainMap .gate, #guide .gate { border-color: darkgray; }
 .eol, #chainMap .eol, #guide .eol { border-style: dashed; }
+.eol-1h, #chainMap .eol-1h, #guide .eol-1h { border-style: dotted; border-color: #F000FF; } /* normally, don't use colour for life, but <1h wants to be visible */
 .frig, #chainMap .frig, #guide .frig { border-color: #50D25A; }
 
 .tab {

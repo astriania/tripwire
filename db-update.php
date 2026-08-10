@@ -43,7 +43,7 @@ function update_database() {
 				fwrite($fp, "$prefix$run;");
 			}
 		} catch(Exception $e) {
-			error_log($e->getMessage(), ERROR);
+			error_log($e->getMessage());
 			die('Error attempting to apply DB updates. Please ask your Tripwire admin to check database config.');
 		}		
 	} else { return false; }
@@ -54,7 +54,7 @@ $db_update_diffs = [
 			`diff_index` int PRIMARY KEY,
 			`applied_at` TIMESTAMP NOT NULL
 		)',
-
+		'alter table wormholes modify column `life` varchar(32)',
 ];
 
 // Don't retry in the same session, to avoid reading the file every time
