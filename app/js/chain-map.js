@@ -108,20 +108,16 @@ var chain = new function() {
 	}
 
 	this.flares = function(data) {
-		/*	function for coloring chain map nodes via flares  */
-		//var data = typeof(data) !== "undefined" ? data : this.data.flares;
-
-		// Remove all current node coloring instead of checking each one
-		$("#chainMap div.node").removeClass("redNode yellowNode greenNode");
-
-		// Remove all coloring from chain grid
-		$("#chainGrid tr").removeClass("red yellow green");
-
-		// Loop through passed data and add classes by system
 		if (data) {
-			for (var x in data.flares) {
-				var systemID = data.flares[x].systemID;
-				var flare = data.flares[x].flare;
+			// Remove all current node coloring instead of checking each one
+			$("#chainMap div.node").removeClass("redNode yellowNode greenNode");
+
+			// Remove all coloring from chain grid
+			$("#chainGrid tr").removeClass("red yellow green");
+
+			// Loop through passed data and add classes by system
+			for (var systemID in data) {
+				var flare = data[systemID].flare;
 
 				var row = ($("#chainMap [data-nodeid="+systemID+"]").addClass(flare+"Node").parent().index() - 1) / 3 * 2;
 
@@ -132,6 +128,29 @@ var chain = new function() {
 		}
 
 		return data;
+	}
+	
+	/** Convert the flare list from the back end into a map for easy lookup */
+	this.updateFlares = function(data) {
+		if(!data) { return this.data.flares; }
+		const r = {};
+		for (var x in data.flares) {
+			var systemID = data.flares[x].systemID;
+			r[systemID] = data.flares[x];
+		}
+		this.flares(r);
+		return r;
+	}
+	
+	/** Update the flare on a single system */
+	this.updateFlare = function(systemID, flare) {
+		if(!this.data.flares) { return; }
+		if(flare && flare !== 'none') {
+			this.data.flares[systemID] = {systemID: systemID, flare: flare, time: null};
+		} else {
+			delete this.data.flares[systemID];
+		}		
+		this.flares(this.data.flares);
 	}
 
 	this.grid = function() {
@@ -602,7 +621,7 @@ var chain = new function() {
 		}
 
 		if (data.flares) { // 20ms
-			this.data.flares = this.flares(data.flares);
+			this.data.flares = this.updateFlares(data.flares);
 		}
 	}
 

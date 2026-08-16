@@ -17,9 +17,6 @@ tripwire.sync = function(mode, data, successCallback, alwaysCallback) {
         data.signatureCount = tripwire.serverSignatureCount;
         data.signatureTime = maxTimeByProperty(this.client.signatures, "modifiedTime");
 
-        data.flareCount = chain.data.flares ? chain.data.flares.flares.length : 0;
-        data.flareTime = chain.data.flares ? chain.data.flares.last_modified : 0;
-
         data.commentCount = Object.keys(this.comments.data||{}).length;
         data.commentTime = maxTimeByProperty(this.comments.data, "modified");
 
@@ -95,10 +92,10 @@ tripwire.sync = function(mode, data, successCallback, alwaysCallback) {
             }
 
             if (data.wormholes || data.occupied || data.flares) {
-                tripwire.chainMap.parse({"map": data.wormholes || null, "occupied": data.occupied || null, "flares": data.flares || null});
+                chain.draw({"map": data.wormholes || null, "occupied": data.occupied || null, "flares": data.flares || null});
             } else if (chain.data.occupied && chain.data.occupied.length && !data.occupied) {
                 // send update to remove all occupied system indicators
-                tripwire.chainMap.parse({"occupied": []});
+                chain.draw({"occupied": []});
             }
 
 			tripwire.updateReturnStatus();

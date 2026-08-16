@@ -291,8 +291,6 @@ if (isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'init') {
 	$signatureTime 		= isset($_REQUEST['signatureTime']) ? $_REQUEST['signatureTime'] : null;
 	$chainCount				= isset($_REQUEST['chainCount'])?$_REQUEST['chainCount']:null;
 	$chainTime 				= isset($_REQUEST['chainTime'])?$_REQUEST['chainTime']:null;
-	$flareCount 			= isset($_REQUEST['flareCount'])?$_REQUEST['flareCount']:null;
-	$flareTime 				= isset($_REQUEST['flareTime'])?$_REQUEST['flareTime']:null;
 	$commentCount 		= isset($_REQUEST['commentCount'])?$_REQUEST['commentCount']:null;
 	$commentTime 			= isset($_REQUEST['commentTime'])?$_REQUEST['commentTime']:null;
 

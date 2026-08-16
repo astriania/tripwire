@@ -339,13 +339,7 @@ $system = $_REQUEST['system'];
 							</ul>
 						</li>
 						<li>
-							<li><a>Flares</a>
-								<ul style="width: 10em;">
-									<li data-command="red"><a>Battle (red)</a></li>
-									<li data-command="yellow"><a>Hold (yellow)</a></li>
-									<li data-command="green"><a>Fleet Op (green)</a></li>
-								</ul>
-							</li>
+							<li data-command="flare"><a>Flares ...</a></li>
 							<li data-command="mass"><a>Mass</a></li>
 							<li data-command="collapse"><a>Collapse</a></li>
 							<li data-command="ping"><a>Ping ...</a></li>
@@ -1086,6 +1080,20 @@ $system = $_REQUEST['system'];
 		</form>
 	</div>
 
+	<div id="dialog-flare" title="" class="hidden" style="width:300px">
+		<form id="flare_form">
+			<p>Select or remove a flare:</p>
+			<p>
+			<label><input type="radio" name="flare-type" value="none"> None</label><br>
+			<label><input type="radio" name="flare-type" value="red" class="red"> Red (battle, hostile, dangerous)</label><br>
+			<label><input type="radio" name="flare-type" value="yellow" class="yellow"> Yellow (hold, warning)</label><br>
+			<label><input type="radio" name="flare-type" value="green" class="green"> Green (op, rally, friendly)</label>
+			</p>
+			
+			<!--<textarea id="ping-text" style="width:100%; margin-left: 0; margin-top: 8px; height: 150px"></textarea> -->
+		</form>
+	</div>
+	
 	<div id="dialog-newTab" title="New Tab" class="hidden">
 		<form id="newTab_form">
 			<table class="optionsTable" width="100%" cellpadding="1" cellspacing="0">

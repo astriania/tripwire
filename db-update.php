@@ -55,6 +55,10 @@ $db_update_diffs = [
 			`applied_at` TIMESTAMP NOT NULL
 		)',
 		'alter table wormholes modify column `life` varchar(32)',
+		'alter table flares 
+			add column lifeLength int not null default 86400,
+			add column reason varchar(255) null',
+		'alter event flaresClean DO DELETE FROM flares WHERE lifeLength is not null and DATE_ADD(time, INTERVAL lifeLength second) < NOW()'
 ];
 
 // Don't retry in the same session, to avoid reading the file every time
