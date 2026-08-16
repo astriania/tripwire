@@ -1,12 +1,12 @@
 /* Styles relating to the radial map renderer */
-#chainMap .radial-map .node.top-level {
+.radial-map .node.top-level {
 	border-radius:200px;
 	padding: 10px;
 	border: 4px #004080 solid;
 	font-size: 120%;
 }
 
-#chainMap .radial-map .top-level .nodeIcons {
+.radial-map .top-level .nodeIcons {
     top: 0.9em;
 }
 

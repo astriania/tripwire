@@ -711,7 +711,7 @@ $("#chainParent").contextmenu({
 				nodeElem.hasClass("greenNode") ? $(this).contextmenu("removeFlare", id, ui) : $(this).contextmenu("setFlare", id, ui.cmd, ui);
 				break;
 			case "flare": 
-				$("#dialog-flare").data("systemID", id).data('copyNode', nodeElem[0].cloneNode()).dialog("open");
+				$("#dialog-flare").data("systemID", id).data('copyNode', nodeElem[0].cloneNode(true)).dialog("open");
 				break;			
 			case "mass":
 				$("#dialog-mass").data("id", nodeElem.data("sigid")).data("systemID", id).dialog("open");

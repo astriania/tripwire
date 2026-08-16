@@ -1,4 +1,4 @@
-const sendFlare = function(systemID, flare, lifeLength, reason, dialog) {
+function sendFlare(systemID, flare, lifeLength, reason, dialog) {
 			const flareData = {"systemID": systemID, "flare": flare === 'none' ? undefined : flare, "lifeLength": lifeLength === 'none' ? undefined : lifeLength, "reason": reason};
 
 			$.ajax({
@@ -12,6 +12,13 @@ const sendFlare = function(systemID, flare, lifeLength, reason, dialog) {
 					$(dialog).dialog("close");
 				}
 			});
+}
+
+function updateFlareDialogDisplayNode(dialog) {
+	const node = dialog.querySelector('#flare-node .node');
+	$(node).removeClass("redNode yellowNode greenNode");
+	const flareType = dialog.querySelector("input[name='flare-type']:checked").value;
+	if(flareType !== 'none') { $(node).addClass(flareType + 'Node'); }
 }
 
 		$("#dialog-flare").dialog({
@@ -32,6 +39,9 @@ const sendFlare = function(systemID, flare, lifeLength, reason, dialog) {
 					$(this).dialog("close");
 				},
 			},
+			create: function() {
+				$(this).find("input[name='flare-type']").on('click', e => updateFlareDialogDisplayNode(this));
+			},
 			open: function() {
 				const systemID = $(this).data("systemID");
 				const copyNode = $(this).data('copyNode');
@@ -43,6 +53,13 @@ const sendFlare = function(systemID, flare, lifeLength, reason, dialog) {
 				typeRadio.focus();
 				this.querySelector("input[name='flare-expiry'][value='" + (flare.lifeLength || 'none') + "']").checked = true;
 				this.querySelector('#flare-text').value = flare.reason || '';
-				$(this).dialog("option", "title", this.systemName + " Flare");
+				
+				// drop the clone node in
+				const nodeWrapper = this.querySelector('#flare-node');
+				nodeWrapper.innerHTML = '';
+				nodeWrapper.appendChild(copyNode);
+				
+				updateFlareDialogDisplayNode(this);
+				$(this).dialog("option", "title", "Set flare on " + this.systemName);
 			}
 		});

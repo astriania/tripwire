@@ -1081,7 +1081,7 @@ $system = $_REQUEST['system'];
 	</div>
 
 	<div id="dialog-flare" title="" class="hidden" style="width:300px">
-		<div class="flare-node" style="float:right">
+		<div id="flare-node" class="ui-widget-reset" style="float:right; padding-right: 20px; padding-top: 20px">
 			<!-- filled in dynamically -->
 		</div>
 		<form id="flare_form">
