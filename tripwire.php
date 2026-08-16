@@ -1081,16 +1081,25 @@ $system = $_REQUEST['system'];
 	</div>
 
 	<div id="dialog-flare" title="" class="hidden" style="width:300px">
+		<div class="flare-node" style="float:right">
+			<!-- filled in dynamically -->
+		</div>
 		<form id="flare_form">
 			<p>Select or remove a flare:</p>
-			<p>
+			<p style="margin-left: 1em">
 			<label><input type="radio" name="flare-type" value="none"> None</label><br>
 			<label><input type="radio" name="flare-type" value="red" class="red"> Red (battle, hostile, dangerous)</label><br>
 			<label><input type="radio" name="flare-type" value="yellow" class="yellow"> Yellow (hold, warning)</label><br>
 			<label><input type="radio" name="flare-type" value="green" class="green"> Green (op, rally, friendly)</label>
 			</p>
 			
-			<!--<textarea id="ping-text" style="width:100%; margin-left: 0; margin-top: 8px; height: 150px"></textarea> -->
+			<p>Flare for:
+			<label><input type="radio" name="flare-expiry" value="86400"> 1 day</label>
+			<label><input type="radio" name="flare-expiry" value="none"> Forever</label>
+			</p>
+			
+			<p>Optionally, enter a reason:
+			<textarea id="flare-text" style="width:100%; margin-left: 0; margin-top: 8px; height: 70px"></textarea>
 		</form>
 	</div>
 	

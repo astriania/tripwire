@@ -369,7 +369,7 @@ if ($result = $stmt->fetchAll(PDO::FETCH_CLASS)) {
 }
 
 // Get flares
-$query = 'SELECT systemID, flare, time FROM flares WHERE maskID = :maskID';
+$query = 'SELECT systemID, flare, lifeLength, reason, time FROM flares WHERE maskID = :maskID';
 $stmt = $mysql->prepare($query);
 $stmt->bindValue(':maskID', $maskID);
 $stmt->execute();

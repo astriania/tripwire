@@ -145,8 +145,8 @@ var chain = new function() {
 	/** Update the flare on a single system */
 	this.updateFlare = function(systemID, flare) {
 		if(!this.data.flares) { return; }
-		if(flare && flare !== 'none') {
-			this.data.flares[systemID] = {systemID: systemID, flare: flare, time: null};
+		if(flare && flare.flare) {
+			this.data.flares[systemID] = flare;
 		} else {
 			delete this.data.flares[systemID];
 		}		

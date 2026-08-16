@@ -58,7 +58,8 @@ $db_update_diffs = [
 		'alter table flares 
 			add column lifeLength int not null default 86400,
 			add column reason varchar(255) null',
-		'alter event flaresClean DO DELETE FROM flares WHERE lifeLength is not null and DATE_ADD(time, INTERVAL lifeLength second) < NOW()'
+		'alter event flaresClean DO DELETE FROM flares WHERE lifeLength is not null and DATE_ADD(time, INTERVAL lifeLength second) < NOW()',
+		'alter table flares modify column lifeLength int null', // this is two diffs to set the default 1 day on existing records
 ];
 
 // Don't retry in the same session, to avoid reading the file every time

@@ -118,7 +118,7 @@ tripwire.systemChange = function(systemID, mode) {
 		for (var fi in options.favorites) {
 			const f = options.favorites[fi];
 			const path = guidance.findShortestPath(tripwire.map.shortest, f, viewingSystemID);
-			if(path) { $('#infoStatics').append('<p><b><a href=".?system=' + tripwire.systems[f].name + '">' +tripwire.systems[f].name + '</a></b>: ' + systemRendering.renderPath(path) + '</p>'); }
+			if(path) { $('#infoStatics').append('<p style="margin:0"><b><a href=".?system=' + tripwire.systems[f].name + '">' +tripwire.systems[f].name + '</a></b>: ' + systemRendering.renderPath(path) + '</p>'); }
 		}
     }
 
