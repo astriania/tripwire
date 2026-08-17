@@ -35,7 +35,7 @@ if (isset($_REQUEST['flare']) && !empty($_REQUEST['flare'])) {
 	}
 	$lifeLength = isset($_REQUEST['lifeLength']) ? intval($_REQUEST['lifeLength']) : null;
 
-	$query = 'INSERT INTO flares (maskID, systemID, flare, lifeLength, reason) VALUES (:mask, :systemID, :flare, :lifeLength, :reason) ON DUPLICATE KEY UPDATE flare = :flare';
+	$query = 'INSERT INTO flares (maskID, systemID, flare, lifeLength, reason) VALUES (:mask, :systemID, :flare, :lifeLength, :reason) ON DUPLICATE KEY UPDATE flare = :flare, lifeLength = :lifeLength, reason = :reason';
 	$stmt = $mysql->prepare($query);
 	$stmt->bindValue(':mask', $mask);
 	$stmt->bindValue(':systemID', $systemID);

@@ -104,15 +104,15 @@ body .class-15, body .class-16, body .class-17 {	/* Drifter */
 	color: #f06060;
 }
 
-body .hisec, body .stable, body .frig {
+body .hisec, body .stable, body .frig, .flare-green {
 	color: #50D25A;
 }
 
-body .lowsec, body .destab {
+body .lowsec, body .destab, .flare-yellow {
 	color: #F58504;
 }
 
-body .nullsec, body .critical {
+body .nullsec, body .critical, .flare-red {
 	color: #FF4747;
 }
 

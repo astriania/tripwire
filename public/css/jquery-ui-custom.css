@@ -4,6 +4,10 @@
     font-size: 1.1em;
 }
 
+.ui-widget-reset {
+	font-size: calc(1em / 1.1); /* resets the above */
+}
+
 .ui-widget input {
     font-family: Verdana,Arial,sans-serif;
     font-size: 1em;

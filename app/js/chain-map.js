@@ -551,7 +551,6 @@ var chain = new function() {
 			Object.sort(data.map, "id");
 
 			$.extend(data, this.nodes(data.map)); // 250ms -> <100ms
-			$.extend(this.data, data);
 			
 			const collapsedSystems = options.chain.tabs[options.chain.active] ? (options.chain.tabs[options.chain.active].collapsed || []) : [];
 
@@ -574,7 +573,6 @@ var chain = new function() {
 			
 			this.drawing = false;
 			
-			systemPanel.update();
 		}
 
 		// Gather latest system activity
@@ -623,6 +621,8 @@ var chain = new function() {
 		if (data.flares) { // 20ms
 			this.data.flares = this.updateFlares(data.flares);
 		}
+		
+		systemPanel.update();
 	}
 
 	this.updateCollapsed = function(collapsedSystems) {
