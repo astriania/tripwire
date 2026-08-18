@@ -550,11 +550,11 @@ var chain = new function() {
 			// Sort so we keep the chain map order the same
 			Object.sort(data.map, "id");
 
-			$.extend(data, this.nodes(data.map)); // 250ms -> <100ms
+			$.extend(this.data, this.nodes(data.map)); // 250ms -> <100ms
 			
 			const collapsedSystems = options.chain.tabs[options.chain.active] ? (options.chain.tabs[options.chain.active].collapsed || []) : [];
 
-			this.renderer.draw(data.map, data.lines, collapsedSystems); // 150ms
+			this.renderer.draw(this.data.map, this.data.lines, collapsedSystems); // 150ms
 			//this.map.draw(this.newView(data.map), this.options); // 150ms
 
 //			this.renderer.lines(data); // 300ms
