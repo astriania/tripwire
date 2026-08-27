@@ -81,9 +81,21 @@ tripwire.parse = function(server, mode) {
 	tripwire.signatures.currentSystem = newSigsInSystem;
 		
     // set the sig count in the UI
-    var signatureCount = 0;
-    $.map(data.signatures, function(signature) {signature.systemID == viewingSystemID ? signatureCount++ : null;});
-    $("#signature-count").text(signatureCount);
+    var signatureCount = { total: 0, wormhole: 0, signature: 0, anomaly: 0 };
+    $.map(data.signatures, function(signature) {
+		if(signature.systemID != viewingSystemID) { return; }
+		signatureCount.total++;
+		
+		if(signature.type === 'wormhole') { signatureCount.wormhole++; }
+		else if(signature.scan_group === 'anomaly') { signatureCount.anomaly++; }
+		else { signatureCount.signature++; }
+	});
+    $("#signature-count").html(signatureCount.total ? (signatureCount.total + ' ( <span id="sig-breakdown">'
+		+ (signatureCount.wormhole ? scanGroupText.wormhole + signatureCount.wormhole + ' ' : '')
+		+ (signatureCount.signature ? scanGroupText.signature + signatureCount.signature + ' ' : '')
+		+ (signatureCount.anomaly ? scanGroupText.anomaly + signatureCount.anomaly + ' ' : '')
+		+ '</span>)'): 0
+	);
 }
 
 /** Find if there is an unknown return sig. The markup is always generated (in addSignature.js) */

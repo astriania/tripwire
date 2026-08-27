@@ -188,9 +188,17 @@ $system = $_REQUEST['system'];
 					<i id="edit-signature" data-icon="edit" data-tooltip="Edit selected signature" class="disabled"></i>
 					<i id="delete-signature" data-icon="trash" data-tooltip="Delete selected signature(s)" class="disabled"></i>
 					<span>|</span>
-					<i id="signature-count" style="font-style: normal; cursor: default;" data-tooltip="Total signature count">0</i>
 					<i id="undo" data-icon="undo" class="disabled" data-tooltip="Undo last signature change"></i>
 					<i id="redo" data-icon="redo" class="disabled" data-tooltip="Redo what was undone"></i>
+					<span>|</span>
+					<i id="signature-count" style="font-style: normal; cursor: default;" data-tooltip="Total signature count<br><i data-icon='radio-off'></i> Wormholes; <span data-icon>&#xe004;</span> Signatures; <i data-icon='pin'></i> Anomalies">0</i>
+					<script>
+						const scanGroupText = {
+							wormhole: "<span data-icon='radio-off' data-tooltip='Wormhole'></span>",
+							anomaly: "<span data-icon='pin' data-tooltip='Anomaly'></span>",
+							signature: "<span data-icon data-tooltip='Signature'>&#xe004;</span>"
+						};
+					</script>
 					<div style="float: right;">
 						<i id="toggle-automapper" class="disabled" data-icon="auto" data-tooltip="Toggle Auto-Mapper"></i>
 						<i class="tutorial" data-tooltip="Show tutorial for this section">?</i>

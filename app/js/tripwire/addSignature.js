@@ -51,7 +51,7 @@ tripwire.addSig = function(add, option, disabled) {
 			add.signatureID && add.signatureID.length && add.signatureID[0] != '?' ? returnLinkText
 			: '';	
 
-        var row = "<tr data-id='"+add.id+"' data-tooltip='' "+ (disabled ? 'disabled="disabled"' : '') +">"
+        var row = "<tr data-id='"+add.id+"' class='sig-wormhole' data-scan-group='"+_.escape(add.scan_group) + "' data-tooltip='' "+ (disabled ? 'disabled="disabled"' : '') +">"
             + "<td class='"+ options.signatures.alignment.sigID +"'>"+formatSignatureID(add.signatureID)+"</td>"
             + "<td class='type-tooltip "+ options.signatures.alignment.sigType +"' data-tooltip=\""+this.whTooltip(wormhole)+"\">"+sigInfo.formattedType+"</td>"
             + "<td class='age-tooltip "+ options.signatures.alignment.sigAge + (parseInt(add.lifeLength) === 0 ? " disabled" : "") +"' data-tooltip='"+this.ageTooltip(add)+"'><span data-age='"+add.lifeTime+"'></span></td>"
@@ -62,13 +62,13 @@ tripwire.addSig = function(add, option, disabled) {
 
         var tr = $(row);
     } else {
-		const leadsToText = add.type === 'unknown' ? returnLinkText : 
-			(add.name ? linkSig(add.name) : '');
-        var row = "<tr data-id='"+add.id+"' data-tooltip='' "+ (disabled ? 'disabled="disabled"' : '') +">"
+		const leadsToText = (add.type === 'unknown' ? returnLinkText : 
+			(add.name ? linkSig(add.name) : ''));
+        var row = "<tr data-id='"+add.id+"' class='sig-" + _.escape(add.scan_group) +"' data-scan-group='"+_.escape(add.scan_group) + "' data-tooltip='' "+ (disabled ? 'disabled="disabled"' : '') +">"
             + "<td class='"+ options.signatures.alignment.sigID +"'>"+formatSignatureID(add.signatureID)+"</td>"
             + "<td class='"+ options.signatures.alignment.sigType +"'>"+add.type+"</td>"
             + "<td class='age-tooltip "+ options.signatures.alignment.sigAge + (parseInt(add.lifeLength) === 0 ? " disabled" : "") +"' data-tooltip='"+this.ageTooltip(add)+"'><span data-age='"+add.lifeTime+"'></span></td>"
-            + "<td class='"+ options.signatures.alignment.leadsTo +"' colspan='3'>"+leadsToText+"</td>"
+            + "<td class='"+ options.signatures.alignment.leadsTo +"' colspan='3'><span style='float:left'>"+(scanGroupText[add.scan_group] || '') + '</span>' +  leadsToText +"</td>"
             + "</tr>";
 
         var tr = $(row);

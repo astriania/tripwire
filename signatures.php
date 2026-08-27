@@ -5,6 +5,7 @@ class signature {
     protected $signatureID = null;
     protected $systemID = null;
     protected $type = ['unknown', 'combat', 'data', 'relic', 'ore', 'gas', 'wormhole'];
+	protected $scan_group = null;
     protected $name = null;
     protected $bookmark = null;
     protected $lifeTime = null;
@@ -22,6 +23,7 @@ class signature {
         $this->signatureID = isset($signature['signatureID']) && !empty($signature['signatureID']) ? strtolower($signature['signatureID']) : $this->signatureID;
         $this->systemID = isset($signature['systemID']) && is_numeric($signature['systemID']) ? (int)$signature['systemID'] : $this->systemID;
         $this->type = isset($signature['type']) && in_array(strtolower($signature['type']), $this->type) ? strtolower($signature['type']) : $this->type[0];
+        $this->scan_group = isset($signature['scan_group']) && !empty($signature['scan_group']) ? $signature['scan_group'] : null;
         $this->name = isset($signature['name']) && !empty($signature['name']) ? $signature['name'] : $this->name;
         $this->bookmark = isset($signature['bookmark']) && !empty($signature['bookmark']) ? $signature['bookmark'] : $this->bookmark;
         $this->lifeTime = isset($signature['lifeTime']) && (bool)strtotime($signature['lifeTime']) ? date('Y-m-d H:i:s', strtotime($signature['lifeTime'])) : date('Y-m-d H:i:s');
@@ -206,12 +208,13 @@ function findWormhole($id, $mysql) {
 function addSignature($signature, $mysql) {
     $signature = new signature($signature);
 
-    $query = 'INSERT INTO signatures (signatureID, systemID, type, name, bookmark, lifeTime, lifeLeft, lifeLength, createdByID, createdByName, modifiedByID, modifiedByName, modifiedTime, maskID)
-                VALUES (:signatureID, :systemID, :type, :name, :bookmark, :lifeTime, :lifeLeft, :lifeLength, :createdByID, :createdByName, :modifiedByID, :modifiedByName, :modifiedTime, :maskID)';
+    $query = 'INSERT INTO signatures (signatureID, systemID, type, scan_group, name, bookmark, lifeTime, lifeLeft, lifeLength, createdByID, createdByName, modifiedByID, modifiedByName, modifiedTime, maskID)
+                VALUES (:signatureID, :systemID, :type, :scan_group, :name, :bookmark, :lifeTime, :lifeLeft, :lifeLength, :createdByID, :createdByName, :modifiedByID, :modifiedByName, :modifiedTime, :maskID)';
     $stmt = $mysql->prepare($query);
     $stmt->bindValue(':signatureID', $signature->signatureID);
     $stmt->bindValue(':systemID', $signature->systemID);
     $stmt->bindValue(':type', $signature->type);
+    $stmt->bindValue(':scan_group', $signature->scan_group);
     $stmt->bindValue(':name', $signature->name);
     $stmt->bindValue(':bookmark', $signature->bookmark);
     $stmt->bindValue(':lifeTime', $signature->lifeTime);
@@ -280,6 +283,7 @@ function updateSignature(signature $signature, $mysql) {
                 signatureID = :signatureID,
                 systemID = :systemID,
                 type = :type,
+                scan_group = :scan_group,
                 name = :name,
                 bookmark = :bookmark,
                 lifeTime = :lifeTime,
@@ -295,6 +299,7 @@ function updateSignature(signature $signature, $mysql) {
     $stmt->bindValue(':signatureID', $signature->signatureID);
     $stmt->bindValue(':systemID', $signature->systemID);
     $stmt->bindValue(':type', $signature->type);
+    $stmt->bindValue(':scan_group', $signature->scan_group);
     $stmt->bindValue(':name', $signature->name);
     $stmt->bindValue(':bookmark', $signature->bookmark);
     $stmt->bindValue(':lifeTime', $signature->lifeTime);

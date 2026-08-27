@@ -16,7 +16,7 @@ tripwire.systemChange = function(systemID, mode) {
         // Reset signatures
         $("#sigTable span[data-age]").countdown("destroy");
         $("#sigTable tbody").empty();
-        $("#signature-count").text('0');
+        $("#signature-count").text('');
         tripwire.signatures.list = {};
         tripwire.client.signatures = null;
 

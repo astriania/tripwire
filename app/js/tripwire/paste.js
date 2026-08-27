@@ -5,31 +5,31 @@ tripwire.pasteSignatures = function() {
     var rowParse = function(row) {
         var scanner = {};
         var columns = row.split("	"); // Split by tab
-        var validScanGroups = [
+        var validScanGroups = {
             // English (en-us)
-            "Cosmic Signature",
-            "Cosmic Anomaly",
+            "Cosmic Signature": "signature",
+            "Cosmic Anomaly": "anomaly",
 
             // French (fr)
-            "Signature cosmique",
-            "Anomalie cosmique",
+            "Signature cosmique": "signature",
+            "Anomalie cosmique": "anomaly",
 
             // German (de)
-            "Kosmische Anomalie",
-            "Kosmische Signatur",
+            "Kosmische Anomalie": "anomaly",
+            "Kosmische Signatur": "signature",
 
             // Japanese (ja)
-            "宇宙の特異点",
-            "宇宙のシグネチャ",
+            "宇宙の特異点": "anomaly",
+            "宇宙のシグネチャ": "signature",
 
             // Korean (ko)
-            "코즈믹 시그니처",
-            "코즈믹 어노말리",
+            "코즈믹 시그니처": "signature",
+            "코즈믹 어노말리": "anomaly",
 
             // Russian (ru)
-            "Скрытый сигнал",
-            "Космическая аномалия",
-        ];
+            "Скрытый сигнал": "signature",
+            "Космическая аномалия": "anomaly",
+        };
 
         var validTypes = {
             // English (en-us)
@@ -91,8 +91,8 @@ tripwire.pasteSignatures = function() {
                 continue;
             }
 
-            if ($.inArray(columns[x], validScanGroups) != -1) {
-                scanner.scanGroup = columns[x];
+            if (validScanGroups[columns[x]]) {
+                scanner.scanGroup = validScanGroups[columns[x]];
                 continue;
             }
 
@@ -141,6 +141,7 @@ tripwire.pasteSignatures = function() {
                                     "id": signature.id,
                                     "signatureID": signature.signatureID,
                                     "systemID": viewingSystemID,
+									"scan_group": scanner.scanGroup,
                                     "type": "wormhole",
                                     "name": signature.name
                                 },
@@ -148,6 +149,7 @@ tripwire.pasteSignatures = function() {
                                     "id": otherSignature.id || null,
                                     "signatureID": otherSignature.signatureID || null,
                                     "systemID": otherSignature.systemID || null,
+									"scan_group": scanner.scanGroup,
                                     "type": "wormhole",
                                     "name": otherSignature.name
                                 }
@@ -165,6 +167,7 @@ tripwire.pasteSignatures = function() {
                         payload.signatures.update.push({
                             "id": signature.id,
                             "systemID": viewingSystemID,
+							"scan_group": scanner.scanGroup,
                             "type": scanner.type || 'unknown',
                             "name": scanner.name,
                             "lifeLength": options.signatures.pasteLife * 60 * 60
@@ -185,12 +188,14 @@ tripwire.pasteSignatures = function() {
                                 {
                                     "signatureID": scanner.id[0] + scanner.id[1],
                                     "systemID": viewingSystemID,
+									"scan_group": scanner.scanGroup,
                                     "type": "wormhole",
                                     "lifeLength": options.signatures.pasteLife * 60 * 60
                                 },
                                 {
                                     "signatureID": null,
                                     "systemID": null,
+									"scan_group": scanner.scanGroup,
                                     "type": "wormhole",
                                     "lifeLength": options.signatures.pasteLife * 60 * 60
                                 }
@@ -200,6 +205,7 @@ tripwire.pasteSignatures = function() {
                         payload.signatures.add.push({
                             "signatureID": scanner.id[0] + scanner.id[1],
                             "systemID": viewingSystemID,
+							"scan_group": scanner.scanGroup,
                             "type": scanner.type || 'unknown',
                             "name": scanner.name,
                             "lifeLength": options.signatures.pasteLife * 60 * 60
