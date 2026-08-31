@@ -118,7 +118,7 @@ body .nullsec, body .critical, .flare-red {
 
 body .triglavian { color: #FF2060; }
 
-body .supercritical { color: #F000FF; }
+body .supercritical, body .eol-1h { color: #F000FF; }
 
 .blue-loot, .blue-loot .hisec { color: #6060f0; }
 

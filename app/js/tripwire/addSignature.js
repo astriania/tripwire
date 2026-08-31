@@ -50,13 +50,14 @@ tripwire.addSig = function(add, option, disabled) {
 		const leadsToText = sigInfo.leadsTo ? sigInfo.leadsTo : 
 			add.signatureID && add.signatureID.length && add.signatureID[0] != '?' ? returnLinkText
 			: '';	
+		const lifeClass = (wormhole.life || '').replace('<', 'eol-');
 
         var row = "<tr data-id='"+add.id+"' class='sig-wormhole' data-scan-group='"+_.escape(add.scan_group) + "' data-tooltip='' "+ (disabled ? 'disabled="disabled"' : '') +">"
             + "<td class='"+ options.signatures.alignment.sigID +"'>"+formatSignatureID(add.signatureID)+"</td>"
             + "<td class='type-tooltip "+ options.signatures.alignment.sigType +"' data-tooltip=\""+this.whTooltip(wormhole)+"\">"+sigInfo.formattedType+"</td>"
             + "<td class='age-tooltip "+ options.signatures.alignment.sigAge + (parseInt(add.lifeLength) === 0 ? " disabled" : "") +"' data-tooltip='"+this.ageTooltip(add)+"'><span data-age='"+add.lifeTime+"'></span></td>"
             + "<td class='"+ options.signatures.alignment.leadsTo +"'>"+leadsToText+"</td>"
-            + "<td class='"+wormhole.life+" "+ options.signatures.alignment.sigLife +"'>"+sigInfo.lifeText+"</td>"
+            + "<td class='"+lifeClass+" "+ options.signatures.alignment.sigLife +"'>"+sigInfo.lifeText+"</td>"
             + "<td class='"+wormhole.mass+" "+ options.signatures.alignment.sigMass +"'>"+wormhole.mass+"</td>"
             + "</tr>";
 
