@@ -884,12 +884,16 @@ function linkSig(sigName) {
 }
 
 // Initialize tablesorter plugin on signaturesWidget table
+// Do this with a custom parser (https://mottie.github.io/tablesorter/docs/example-parsers.html) because duplicateSpan doesn't work if we override textExtraction, so the life/mass columns don't sort as expected
+$.tablesorter.addParser({
+	id: 'data-age',
+	format: function(s, table, cell) { return new Date($(cell).find("span").data("age")).getTime(); },
+	type: 'numeric'
+});
 $("#sigTable").tablesorter({
 	sortReset: true,
+	duplicateSpan: false,
 	widgets: ['saveSort'],
-	textExtraction: {
-		2: function(node) { return $(node).find("span").data("age"); }
-	}
 });
 
 // Highlight signaturesWidget tr on click

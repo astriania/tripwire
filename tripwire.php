@@ -211,7 +211,7 @@ $system = $_REQUEST['system'];
 								<tr>
 									<th class="sortable">ID<i data-icon=""></i></th>
 									<th class="sortable">Type<i data-icon=""></i></th>
-									<th class="sortable" data-sorter="usLongDate">Age<i data-icon=""></i></th>
+									<th class="sortable" data-sorter="data-age">Age<i data-icon=""></i></th>
 									<th class="sortable">Leads To<i data-icon=""></i></th>
 									<th class="sortable">Life<i data-icon=""></i></th>
 									<th class="sortable">Mass<i data-icon=""></i></th>
