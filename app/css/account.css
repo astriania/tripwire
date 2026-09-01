@@ -75,11 +75,6 @@
 	white-space: nowrap;
 }
 
-#login #content .avatar {
-	height: 1px;
-	width: 1px;
-}
-
 #login #content table td #logout {
 	float: right;
 }
