@@ -120,6 +120,14 @@
   --ui-green-lit:            #95cc2a;
   --ui-red:                  #b02222;
   --ui-red-lit:              #ee2222;
+  
+  /* derived tokens */
+  --border: var(--n-300);
+  --popover: var(--n-100);
+  
+  /* spacing/layout */
+  --space-1: 4px;
+  --radius: var(--space-1);
 }
 
 /* Front office. Only tokens that must change are redefined. */
