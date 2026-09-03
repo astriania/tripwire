@@ -61,10 +61,9 @@ var activity = new function() {
 			activity.options.animation.duration = 500;
 		}
 	}
-
-	this.init = function() {
-		activity.graph = new google.visualization.AreaChart(document.getElementById("activityGraph"));
-		activity.options = {
+	
+	this.buildOptions = function() {
+		return {
 			isStacked: false,
 			backgroundColor: "transparent",
 			hAxis: {textStyle: {color: "#999", fontName: "Verdana", fontSize: 10}, showTextEvery: 3},
@@ -80,7 +79,12 @@ var activity = new function() {
 			tooltip: {showColorCode: true},
 			annotations: {style: "line", textStyle: {fontSize: 12, color: "#ccc"}, domain: 0},
 			focusTarget: "category"
-		}
+		};
+	}
+
+	this.init = function() {
+		activity.graph = new google.visualization.AreaChart(document.getElementById("activityGraph"));
+		activity.options = activity.buildOptions();
 
 		google.visualization.events.addListener(activity.graph, "select", activity.selectHandler);
 
@@ -106,6 +110,21 @@ var activity = new function() {
 
 	this.redraw = function() {
 		this.graph.draw(this.view, this.options);
+	}
+
+	// The chart reads its colours from the tokens at build time, so a theme
+	// switch rebuilds the options -- keeping the fitted height, chart area
+	// and tick spacing -- and redraws in place.
+	this.retheme = function() {
+		if (!this.graph || !this.options) return;
+		var keep = {height: this.options.height, chartArea: this.options.chartArea, every: this.options.hAxis.showTextEvery};
+		this.options = this.buildOptions();
+		this.options.height = keep.height;
+		this.options.chartArea = keep.chartArea;
+		this.options.legend = {position: "none"};
+		this.options.hAxis.showTextEvery = keep.every;
+		this.renderLegend();
+		if (this.view) this.redraw();
 	}
 
 	this.refresh = function(cache) {

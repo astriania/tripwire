@@ -24,6 +24,7 @@ $system = $_REQUEST['system'] ?? '';
 	<meta name="app_name" content="<?= APP_NAME ?>">
 	<meta name="version" content="<?= VERSION ?>">
 	<link rel="shortcut icon" href="//<?= CDN_DOMAIN ?>/images/favicon.png" />
+	<script>var t = localStorage.getItem("tripwire.theme"); if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t);</script>
 
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.duration-picker.css">
 	<link rel="stylesheet" type="text/css" href="//<?= CDN_DOMAIN ?>/css/jquery.jbox.css">
@@ -137,6 +138,7 @@ $system = $_REQUEST['system'] ?? '';
 			<h3> | </h3>
 
 			<i id="settings" style="font-size: 1.7em;" data-icon="settings" class="options" data-tooltip="Settings"></i>
+			<a href="#" style="font-size: 1.7em;" id="theme-toggle" class="themebtn" type="button" aria-label="Switch to light" data-tooltip="Switch to light">&#9788;</a>
 			<i id="layout" style="font-size: 1.7em;" data-icon="layout" data-tooltip="Customize layout"></i>
 		</span>
 	</div>
