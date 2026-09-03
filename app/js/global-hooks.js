@@ -255,7 +255,7 @@ $("#wrapper").click(function(e) { // Click outside closes
 	}
 });
 $("#login").click(function(e) { // click inside doesn't
-	e.originalEvent.isInPanel = true;
+	if(e.originalEvent) { e.originalEvent.isInPanel = true; }
 })
 
 

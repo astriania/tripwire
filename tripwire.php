@@ -641,9 +641,9 @@ $system = $_REQUEST['system'] ?? '';
 					<tr>
 						<th colspan="2" id="characters"></th>
 					</tr>
-
 				</table>
 				<div style="border-top: 1px solid black; text-align: right; margin: 0 -5px; padding: 5px 5px 0 5px;">
+					<input type="button" id="addESI" class="is-primary" value="Add character" />
 					<input type="button" id="usernameChange" value="Change Username" />
 					<input type="button" id="pwChange" value="Change Password" />
 				</div>
