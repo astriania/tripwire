@@ -360,7 +360,7 @@ if (isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'init') {
 // Values that we always want to return
 
 // Get occupied systems
-$query = 'SELECT systemID, COUNT(characterID) AS count FROM tracking WHERE maskID = :maskID AND characterName NOT LIKE \'%|x%\' GROUP BY systemID';
+$query = 'SELECT systemID, COUNT(characterID) AS count, online, (case when stationID is null then 0 else 1 end) as docked FROM tracking WHERE maskID = :maskID AND characterName NOT LIKE \'%|x%\' GROUP BY systemID';
 $stmt = $mysql->prepare($query);
 $stmt->bindValue(':maskID', $maskID);
 $stmt->execute();

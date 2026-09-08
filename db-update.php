@@ -61,6 +61,8 @@ $db_update_diffs = [
 		'alter event flaresClean DO DELETE FROM flares WHERE lifeLength is not null and DATE_ADD(time, INTERVAL lifeLength second) < NOW()',
 		'alter table flares modify column lifeLength int null', // this is two diffs to set the default 1 day on existing records
 		"alter table signatures add column scan_group enum('anomaly', 'signature') after type",
+		'alter table tracking add column online int not null default 0 after characterName',
+		'alter table tracking modify column stationID bigint null',
 ];
 
 // Don't retry in the same session, to avoid reading the file every time

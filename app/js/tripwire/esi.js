@@ -27,8 +27,9 @@ tripwire.esi = function() {
 			shipName: character.shipName,
 			shipTypeID: character.shipTypeID,
 			shipTypeName: character.shipTypeName,
+			online: character.online,
 			massOptions: tripwire.massOptions,
-			characterOptions: options.tracking.characterOptions[character.characterID]
+			characterOptions: options.tracking.characterOptions[character.characterID],
 		};				
 	}
 	this.esi.updateTracking = updateTracking;	// so it can be called outside
@@ -67,11 +68,12 @@ tripwire.esi = function() {
 						updateTracking(character);
                     }
 
-                    if (character.stationID != data.station_id) {
-                        character.stationID = data.station_id || null;
+					const stationID = data.station_id || data.structure_id;
+                    if (character.stationID != stationID) {
+                        character.stationID = stationID || null;
 
-                        if (data.station_id) {
-                            tripwire.esi.stationLookup(data.station_id, this.characterID)
+                        if (stationID) {
+                            tripwire.esi.stationLookup(stationID, this.characterID)
                                 .always(function(data) {
                                     var character = tripwire.esi.characters[this.reference];
 
@@ -205,6 +207,11 @@ tripwire.esi = function() {
 
             tripwire.esi.characterStatus(character.characterID, character)
                 .done(function(data) {
+					if(data.online !== character.online) {
+						character.online = data.online;
+						updateTracking(character);
+					}
+					
                     if (data.online) {
                         $("#tracking .tracking-clone[data-characterid='"+ this.reference.characterID +"']").find(".online").removeClass("critical").addClass("stable");
                     } else {
