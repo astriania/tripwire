@@ -99,7 +99,10 @@ var chain = new function() {
 		// Loop through passed data and show icons
 		for (var x in data) {
 			$("#chainMap [data-nodeid='"+data[x].systemID+"'] [data-icon='user']").removeClass("invisible");
-			$("#chainMap [data-nodeid='"+data[x].systemID+"'] [data-icon='user'] + .badge").removeClass("invisible").text(data[x].count);
+			const badge = $("#chainMap [data-nodeid='"+data[x].systemID+"'] [data-icon='user'] + .badge");
+			badge.removeClass("invisible online offline");
+			badge.addClass(data[x].online ? 'online' : 'offline');
+			badge.text(data[x].online || data[x].count);
 		}
 
 		OccupiedToolTips.attach($("#chainMap [data-icon='user']:not(.invisible)"));

@@ -384,15 +384,8 @@ var OccupiedToolTips = new jBox("Tooltip", {
 			if (data && data.occupants) {
 				var chars = "<table>";
 
-				// Sort by characterName
-				data.occupants.sort(function(a, b) {
-					if (a.characterName.toLowerCase() < b.characterName.toLowerCase()) return -1;
-					if (a.characterName.toLowerCase() > b.characterName.toLowerCase()) return 1;
-					return 0;
-				});
-
 				for (var x in data.occupants) {
-					chars += "<tr><td>"+data.occupants[x].characterName+"</td><td style='padding-left: 10px;'>"+(data.occupants[x].shipTypeName?data.occupants[x].shipTypeName:"")+"</td></tr>";
+					chars += "<tr><td class='" + (x.online ? 'online' : 'offline') + "'>"+data.occupants[x].characterName+"</td><td style='padding-left: 10px;'>"+(data.occupants[x].shipTypeName?data.occupants[x].shipTypeName:"")+"</td></tr>";
 				}
 
 				chars += "</table>";

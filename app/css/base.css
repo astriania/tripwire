@@ -122,6 +122,8 @@ body .supercritical, body .eol-1h { color: #F000FF; }
 
 .blue-loot, .blue-loot .hisec { color: #6060f0; }
 
+.offline {color: #999; font-style: italic }
+
 .jumps {
 	color: #3366CC;
 }
