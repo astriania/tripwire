@@ -385,7 +385,7 @@ var OccupiedToolTips = new jBox("Tooltip", {
 				var chars = "<table>";
 
 				for (var x in data.occupants) {
-					chars += "<tr><td class='" + (x.online ? 'online' : 'offline') + "'>"+data.occupants[x].characterName+"</td><td style='padding-left: 10px;'>"+(data.occupants[x].shipTypeName?data.occupants[x].shipTypeName:"")+"</td></tr>";
+					chars += "<tr class='" + (x.online ? 'online' : 'offline') + "'><td>"+data.occupants[x].characterName+"</td><td style='padding-left: 10px;'>"+(data.occupants[x].shipTypeName?data.occupants[x].shipTypeName:"")+"</td></tr>";
 				}
 
 				chars += "</table>";
