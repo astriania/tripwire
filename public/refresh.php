@@ -110,6 +110,7 @@ if (isset($_REQUEST['tracking'])) {
 		
 		$track['characterID'] 		= isset($track['characterID']) ? $track['characterID'] : null;
 		$track['characterName'] 	= isset($track['characterName']) ? $track['characterName'] : null;
+		$track['online'] 	     = isset($track['online']) && $track['online'];
 		$track['systemName'] 		= isset($track['systemName']) ? $track['systemName'] : null;
 		$track['stationID'] 		= isset($track['stationID']) && !empty($track['stationID']) ? $track['stationID'] : null;
 		$track['stationName'] 		= isset($track['stationName']) && !empty($track['stationName']) ? $track['stationName'] : null;
@@ -132,16 +133,17 @@ if (isset($_REQUEST['tracking'])) {
 		$track['characterName'] .= '|' . $mods;
 
 
-		$query = 'INSERT INTO tracking (userID, characterID, characterName, systemID, systemName, stationID, stationName, shipID, shipName, shipTypeID, shipTypeName, maskID)
-		VALUES (:userID, :characterID, :characterName, :systemID, :systemName, :stationID, :stationName, :shipID, :shipName, :shipTypeID, :shipTypeName, :maskID)
+		$query = 'INSERT INTO tracking (userID, characterID, characterName, online, systemID, systemName, stationID, stationName, shipID, shipName, shipTypeID, shipTypeName, maskID)
+		VALUES (:userID, :characterID, :characterName, :online, :systemID, :systemName, :stationID, :stationName, :shipID, :shipName, :shipTypeID, :shipTypeName, :maskID)
 		ON DUPLICATE KEY UPDATE
 		systemID = :systemID, systemName = :systemName, stationID = :stationID, stationName = :stationName, 
-		characterName = :characterName,
+		characterName = :characterName, online = :online,
 		shipID = :shipID, shipName = :shipName, shipTypeID = :shipTypeID, shipTypeName = :shipTypeName';
 		$stmt = $mysql->prepare($query);
 		$stmt->bindValue(':userID', $userID);
 		$stmt->bindValue(':characterID', $track['characterID']);
 		$stmt->bindValue(':characterName', $track['characterName']);
+		$stmt->bindValue(':online', $track['online']);
 		$stmt->bindValue(':systemID', $track['systemID']);
 		$stmt->bindValue(':systemName', $track['systemName']);
 		$stmt->bindValue(':stationID', $track['stationID']);
