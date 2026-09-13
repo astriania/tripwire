@@ -110,7 +110,7 @@ if (isset($_REQUEST['tracking'])) {
 		
 		$track['characterID'] 		= isset($track['characterID']) ? $track['characterID'] : null;
 		$track['characterName'] 	= isset($track['characterName']) ? $track['characterName'] : null;
-		$track['online'] 	     = isset($track['online']) && $track['online'];
+		$track['online'] 	     = (isset($track['online']) && $track['online'] == 'true') ? 1 : 0;
 		$track['systemName'] 		= isset($track['systemName']) ? $track['systemName'] : null;
 		$track['stationID'] 		= isset($track['stationID']) && !empty($track['stationID']) ? $track['stationID'] : null;
 		$track['stationName'] 		= isset($track['stationName']) && !empty($track['stationName']) ? $track['stationName'] : null;
