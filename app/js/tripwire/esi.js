@@ -31,6 +31,7 @@ tripwire.esi = function() {
 			massOptions: tripwire.massOptions,
 			characterOptions: options.tracking.characterOptions[character.characterID],
 		};				
+		console.info('Updating tracking for ' + character.characterName, tripwire.data.tracking[character.characterID]);
 	}
 	this.esi.updateTracking = updateTracking;	// so it can be called outside
 
@@ -78,7 +79,8 @@ tripwire.esi = function() {
                                     var character = tripwire.esi.characters[this.reference];
 
                                     character.stationName = data.name || null;
-                                    $("#tracking .tracking-clone[data-characterid='"+ this.reference +"']").find(".station").html(data.name.substring(0, 17) + "..." || "&nbsp;").attr("data-tooltip", data.name);
+									const stationDisplayName = data.name || "&nbsp;";
+                                    $("#tracking .tracking-clone[data-characterid='"+ this.reference +"']").find(".station").html(stationDisplayName.length > 18 ? stationDisplayName.substring(0, 17) : stationDisplayName).attr("data-tooltip", stationDisplayName);
                                     Tooltips.attach($("#tracking .tracking-clone[data-characterid='"+ this.reference +"'] .station[data-tooltip]"));
 
                                     updateTracking(character);
