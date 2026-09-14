@@ -205,7 +205,7 @@ tripwire.esi = function() {
         clearTimeout(onlineTimer);
 
         for (characterID in tripwire.esi.characters) {
-            var character = tripwire.esi.characters[characterID];
+            const character = tripwire.esi.characters[characterID];
 
             tripwire.esi.characterStatus(character.characterID, character)
                 .done(function(data) {
