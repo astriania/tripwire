@@ -387,7 +387,7 @@ require_once('settings.php');
 	<footer class="container">
 		<!--<p>Eon Studios &copy; 2014. All Rights Reserved.</p>-->
 		<p><a href="#privacy">Privacy Policy</a> | <a href="#ccp_copyright">CCP Copyright</a></p>
-		<?php include 'donation_panel.inc'; ?>
+		<?php if (defined('ENABLE_DONATIONS') && ENABLE_DONATIONS) include 'donation_panel.inc'; ?>
 	</footer>
 	
 	<!-- End Footer -->
@@ -395,10 +395,11 @@ require_once('settings.php');
 	</div>
 	<!-- End Wrapper -->
 
-	<?php
-		$analytics_file = dirname( __FILE__ ) . "/analytics.inc.php";
-		if ( file_exists( $analytics_file ) ) include_once( $analytics_file );
-	?>
+<?php
+	$analytics_enabled = defined('ENABLE_ANALYTICS') && ENABLE_ANALYTICS;
+	$analytics_file = dirname( __FILE__ ) . "/analytics.inc.php";
+	if ( $analytics_enabled && file_exists( $analytics_file ) ) include_once( $analytics_file );
+?>
 
 	<!-- Javascripts -->
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/landing/jquery-1.7.1.min.js"></script>
