@@ -39,6 +39,7 @@ require_once('settings.php');
 	<!-- Start Wrapper -->
 	<div id="page_wrapper">
 
+<<<<<<< HEAD
 	<!-- Start Header -->
 	<header>
 		<div class="container">
@@ -60,6 +61,16 @@ require_once('settings.php');
 		</div>
 	</header>
 	<!-- End Header -->
+=======
+	<div class="bar">
+		<a class="brand" href="."><?php if (brand_landing_mark()): ?><img class="brand-small" src="<?= brand_h(brand_url(brand_landing_mark())) ?>" alt="<?= brand_h(brand()['corp']) ?>" /><?php else: ?><span class="brand-text"><?= APP_NAME ?></span><?php endif; ?></a>
+		<nav>
+			<a href="https://github.com/mogglemoss/tripwire/issues" target="_blank" rel="noopener">Issues</a>
+			<a href="#privacy">Privacy</a>
+			<a href="#ccp">Fenris copyright</a>
+		</nav>
+	</div>
+>>>>>>> 2b83aaf (The copyright notice names Fenris Creations, formerly CCP Games)
 
 	<section class="container">
 
@@ -307,10 +318,7 @@ require_once('settings.php');
 			<!-- End Team -->
 
 			<div id="ccp_copyright" class="page">
-				<p>
-					All Eve Related Materials are Property Of CCP Games
-					EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights are reserved worldwide. All other trademarks are the property of their respective owners. EVE Online, the EVE logo, EVE and all associated logos and designs are the intellectual property of CCP hf. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of CCP hf. CCP is in no way responsible for the content on or functioning of this website, nor can it be liable for any damage arising from the use of this website.
-				</p>
+				<p>All EVE related materials are the property of Fenris Creations, formerly CCP Games. EVE Online&reg; and Fenris Creations&trade; and all related logos and other elements are trademarks of Fenris Creations. &copy; 2026 Fenris Creations. All rights reserved. All other trademarks are the property of their respective owners. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of Fenris Creations. Fenris Creations is in no way responsible for the content on or functioning of this website, nor can it be liable for any damage arising from the use of this website.</p>
 			</div>
 
 			<div id="privacy" class="page">
