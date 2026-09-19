@@ -127,7 +127,7 @@
   /* derived tokens */
   --border: var(--n-300);
   --popover: var(--n-100);
-  --primary: var(--n-600);
+  --primary: var(--active-orange);
   --foreground: var(--n-900);
   --separator: var(--n-000);
   --card: linear-gradient(var(--n-100), var(--n-050));

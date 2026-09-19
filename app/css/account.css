@@ -36,7 +36,7 @@
 	min-width: 160px;
 }
 
-#login #content #track .tracking-clone {
+.tracking-clone {
 	border: 2px solid var(--n-600);
     border-radius: 5px;
     cursor: pointer;
