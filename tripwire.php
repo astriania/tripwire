@@ -177,7 +177,8 @@ $system = $_REQUEST['system'] ?? '';
 							<span class="sys-killstream-title">Recent kills</span>
 							<span class="sys-killstream-window" id="killStreamWindow">past 8 hours &middot; zKillboard</span>
 						</div>
-						<div class="sys-killstream-frame"><iframe id="killStreamFrame" title="Recent kills in this system, from zKillboard" loading="lazy" referrerpolicy="no-referrer" scrolling="no"></iframe><p class="sys-killstream-quiet">No kills in the past 8 hours.</p></div>
+						<div class="sys-killstream-strip" id="killStreamStrip" role="list"></div>
+						<p class="sys-killstream-quiet hidden">No kills in the past 8 hours.</p>
 						<p class="sys-killstream-fallback hidden">zKillboard did not answer. <a id="killStreamLink" href="" target="_blank" rel="noopener noreferrer">Open the system on zKillboard</a>.</p>
 					</div>
 					<div id="activityGraph"></div>
