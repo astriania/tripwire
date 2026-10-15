@@ -71,6 +71,7 @@ var activity = new function() {
 			vAxis: {textStyle: {color: "#666", fontName: "Verdana", fontSize: 10}, viewWindowMode: "maximized", viewWindow: {min: 0}, maxValue: 5},
 			gridlineColor: "#454545",
 			pointSize: 2,
+			interpolateNulls: false,
 			lineWidth: 1,
 			height: 150,
 			chartArea: {left: "10%", top: "5%", width: "88%", height: "85%"},
