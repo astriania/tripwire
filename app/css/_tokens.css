@@ -124,7 +124,7 @@
 
 /* Front office. Only tokens that must change are redefined. */
 @media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
+  :root[data-theme="light"] {
     --chart-1:           #2e5cb9;
     --chart-2:           #b62f0e;
     --chart-3:           #8c5400;
