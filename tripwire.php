@@ -172,6 +172,14 @@ $system = $_REQUEST['system'] ?? '';
 					<div id="infoExtra" style="float: right; width: 50%; text-align: right;">
 					</div>
 					<br clear="all"/>
+					<div id="killStream" class="sys-killstream hidden">
+						<div class="sys-killstream-head">
+							<span class="sys-killstream-title">Recent kills</span>
+							<span class="sys-killstream-window" id="killStreamWindow">past 8 hours &middot; zKillboard</span>
+						</div>
+						<div class="sys-killstream-frame"><iframe id="killStreamFrame" title="Recent kills in this system, from zKillboard" loading="lazy" referrerpolicy="no-referrer" scrolling="no"></iframe><p class="sys-killstream-quiet">No kills in the past 8 hours.</p></div>
+						<p class="sys-killstream-fallback hidden">zKillboard did not answer. <a id="killStreamLink" href="" target="_blank" rel="noopener noreferrer">Open the system on zKillboard</a>.</p>
+					</div>
 					<div id="activityGraph"></div>
 					<div id="activityGraphControls" style="text-align: center;"><a href="javascript: activity.time(168);">Week</a> - <a href="javascript: activity.time(48);">48Hour</a> - <a href="javascript: activity.time(24);">24Hour</a></div>
 					<div id="infoLinks" style="text-align: center;">
