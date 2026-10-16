@@ -196,4 +196,26 @@ li.ui-menu-item.ui-state-focus > a, li.ui-menu-item.ui-state-active > a {
 }
 
 .ui-dialog hr { border-color: black }
+
+/*Dialog layout - prevent dialogs from overflowing the page and reinstate scrollbars if necessary */
+
+.ui-dialog {
+	display: flex;
+	flex-direction: column;
+	max-height: calc(100vh - 2rem);
+	max-width: calc(100vw - 2rem);
+	box-sizing: border-box;
+}
+
+.ui-dialog > .ui-dialog-titlebar,
+.ui-dialog > .ui-dialog-buttonpane { flex: 0 0 auto; }
+
+.ui-dialog > .ui-dialog-content {
+	flex: 1 1 auto;
+	min-height: 0;          /* without this a flex child refuses to shrink */
+	overflow-y: auto;
+	max-height: none !important;
+	height: auto !important;
+}
+
 /** Dialog Styling **/
