@@ -119,7 +119,7 @@ tripwire.sync = function(mode, data, successCallback, alwaysCallback) {
         // Returning is instant: visibility-refresh.js refreshes on becoming
         // visible, so nothing is stale on the way back.
         // (Also drops the string form, which is an implicit eval.)
-        tripwire.timer = setTimeout(tripwire.refresh,
+        tripwire.timer = setTimeout(function() { tripwire.refresh(); }, // closure so 'this' is the right thing inside 'refresh'
             document.hidden ? tripwire.refreshRateHidden : tripwire.refreshRate);
 
         alwaysCallback ? alwaysCallback(data) : null;
