@@ -183,6 +183,7 @@ $system = $_REQUEST['system'] ?? '';
 			<li id="signaturesWidget" class="gridWidget" data-row="1" data-col="8" data-sizex="7" data-sizey="6" data-min-sizex="5" data-min-sizey="2" style="width: 410px; height: 350px;">
 				<div class="controls">
 					<i id="add-signature" data-icon="plus" data-tooltip="Add a new signature"></i>
+					<i id="paste-signatures" data-icon="plus-circle" data-tooltip="Paste probe scanner results. Ctrl-V anywhere on the page does the same."></i>
 					<i id="edit-signature" data-icon="edit" data-tooltip="Edit selected signature" class="disabled"></i>
 					<i id="delete-signature" data-icon="trash" data-tooltip="Delete selected signature(s)" class="disabled"></i>
 					<span>|</span>
