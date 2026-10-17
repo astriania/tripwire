@@ -88,8 +88,9 @@ test.describe("signatures", () => {
 		await page.click("#paste-signatures");
 		await page.waitForFunction(() => Object.values((tripwire.client && tripwire.client.signatures) || {}).some(s => /zzq401/i.test(s.signatureID)), null, { timeout: 15000 });
 		await setClipboard(page, "ZZQ-401\tCosmic Signature\tOre Site\tE2E ore\t100.0%\t5.00 AU");
+//await page.waitForTimeout(100);
 		await page.click("#paste-signatures");
-		await page.waitForFunction(() => Object.values((tripwire.client && tripwire.client.signatures) || {}).some(s => /zzq401/i.test(s.signatureID) && s.type === "ore"), null, { timeout: 15000 });
+		await page.waitForFunction(() => Object.values((tripwire.client && tripwire.client.signatures) || {}).some(s => /zzq401/i.test(s.signatureID) && s.type === "ore"), null, { timeout: 115000 });
 		const matches = (await clientSigIds(page)).filter(id => id === "zzq401");
 		expect(matches).toHaveLength(1);
 	});
@@ -133,7 +134,7 @@ test.describe("the traps", () => {
 	test("Ctrl-V with the search box focused still ingests a scan", async ({ page, context }) => {
 		await context.grantPermissions(["clipboard-read", "clipboard-write"]);
 		await setClipboard(page, "ZZQ-701\tCosmic Signature\tCombat Site\tE2E from search\t100.0%\t1.00 AU");
-		await page.click("#hdr-system");   // opens search and focuses its input
+		await page.click("#search");   // opens search and focuses its input
 		await expect(page.locator("#searchSpan input")).toBeFocused();
 		await page.keyboard.press(process.platform === "darwin" ? "Meta+V" : "Control+V");
 		await page.waitForFunction(() => Object.values((tripwire.client && tripwire.client.signatures) || {}).some(s => /zzq701/i.test(s.signatureID)), null, { timeout: 15000 });

@@ -10,7 +10,7 @@ const PASS = process.env.E2E_PASS || "preview";
 async function login(page, system) {
 	await page.goto("?system=" + encodeURIComponent(system || "Perimeter"));
 	if (await page.locator("#login_username").count()) {
-		await page.locator("details.alt > summary").click();
+		await page.locator("#login-link").click();
 		await page.fill("#login_username", USER);
 		await page.fill("#login_password", PASS);
 		await page.click("#login-submit");

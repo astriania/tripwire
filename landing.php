@@ -91,7 +91,7 @@ require_once('settings.php');
 		-->
 
 <?php if (!isset($_SESSION['userID'])) { ?>
-			<h1>Have an account?<br/><a href="#login#reg">Log into Tripwire now!</a></h1>
+			<h1>Have an account?<br/><a href="#login#reg" id="login-link">Log into Tripwire now!</a></h1>
 <?php } else { ?>
 			<h1>You're logged in...<br/><a href="?system=">Go to Tripwire now!</a></h1>
 <?php } ?>
@@ -183,7 +183,7 @@ require_once('settings.php');
 							<br/>
 							<p><input type="checkbox" id="remember" name="remember" /><label for="remember"> Remember me</label></p>
 							<div style="padding-top: 25px;">
-								<button type="submit" class="button white">Login</button>
+								<button type="submit" class="button white" id="login-submit">Login</button>
 								<span style="position: absolute; padding-left: 15px;" class="hidden" id="spinner">
 									<!-- Loading animation container -->
 									<div class="loading">
