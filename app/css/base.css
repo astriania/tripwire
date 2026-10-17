@@ -78,7 +78,7 @@ i.disabled {
 }
 
 i.active, a.active {
-	color: orange;
+	color: var(--active-orange);
 }
 
 /* All of these styles want to be more specific than a normal class selector so the text colour wins */

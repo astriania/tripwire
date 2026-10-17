@@ -67,6 +67,8 @@
   --veil-danger:  rgba(255, 0, 0, .3);
   --veil-grey:    rgba(120, 120, 120, .1);
   --veil-silver:  rgba(192, 192, 192, .3);
+  --active-orange: orange;
+  --active-border-orange: darkorange;
 
   /* data semantics */
   --chart-1:                 #3366cc;
@@ -124,10 +126,24 @@
   /* derived tokens */
   --border: var(--n-300);
   --popover: var(--n-100);
+  --primary: var(--n-600);
+  --foreground: var(--n-900);
+  --separator: var(--n-000);
+  --card: linear-gradient(var(--n-100), var(--n-050));
   
   /* spacing/layout */
   --space-1: 4px;
-  --radius: var(--space-1);
+  --space-2: 6px;
+  --space-3: 8px;
+  
+  --radius-sm: var(--space-1);
+  --radius: var(--space-2);
+  
+  /* font size - baselined on "sm" because most of the text in Tripwire is small! */
+  --fs-xs: 90%;
+  --fs-sm: 100%;
+  
+  --fs-base: var(--fs-sm);
 }
 
 /* Front office. Only tokens that must change are redefined. */

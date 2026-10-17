@@ -39,7 +39,7 @@ tripwire.settingsCharacters = (function() {
 		ids.forEach(function(id) {
 			var c = chars[id];
 			var isActive = String(id) === active;
-			var $row = $('<div class="char-row"></div>').attr("data-characterid", id).toggleClass("is-active", isActive);
+			var $row = $('<div class="char-row tracking-clone"></div>').attr("data-characterid", id).toggleClass("active", isActive);
 			$row.append($('<img class="char-portrait" alt="" />').attr("src", "https://images.evetech.net/characters/" + id + "/portrait?size=128"));
 			var $meta = $('<div class="char-meta"></div>')
 				.append($('<div class="char-name"></div>').text(c.characterName || id))
@@ -47,16 +47,14 @@ tripwire.settingsCharacters = (function() {
 			$row.append($meta);
 			var $acts = $('<div class="char-actions"></div>');
 			if (!isActive) {
-				$('<button type="button" class="char-btn"></button>').text("Set active")
+				$('<button type="button" class="char-btn ui-button ui-widget"></button>').text("Set active")
 					.on("click", function() {
 						// The dropdown row's own handler does the work.
 						$("#tracking .tracking-clone[data-characterid='" + id + "']").trigger("click");
 						render();
 					}).appendTo($acts);
-			} else {
-				$('<span class="char-badge"></span>').text("Active").appendTo($acts);
 			}
-			$('<button type="button" class="char-btn is-destructive"></button>').text("Remove")
+			$('<button type="button" class="char-btn is-destructive ui-button ui-widget"></button>').text("Remove")
 				.on("click", function() { remove(id); })
 				.appendTo($acts);
 			$row.append($acts);

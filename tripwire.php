@@ -635,17 +635,18 @@ $system = $_REQUEST['system'] ?? '';
 						<th>Username:</th>
 						<td id="username"></td>
 					</tr>
-					<tr>
-						<th colspan="2">Characters:</th>
-					</tr>
-					<tr>
-						<th colspan="2" id="characters"></th>
-					</tr>
 				</table>
-				<div style="border-top: 1px solid black; text-align: right; margin: 0 -5px; padding: 5px 5px 0 5px;">
-					<input type="button" id="addESI" class="is-primary" value="Add character" />
+				<div class="button-bar">
 					<input type="button" id="usernameChange" value="Change Username" />
 					<input type="button" id="pwChange" value="Change Password" />
+				</div>
+				
+				<section id="tracked-characters">
+					<h4>Tracked characters:</h4>
+					<div id="characters"></div>
+				</section>
+				<div class="button-bar">
+					<input type="button" id="addESI" class="is-primary" value="Add character" />
 				</div>
 			</div>
 			<h3><a href="#">Chain Map Settings</a></h3>
