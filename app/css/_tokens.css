@@ -69,6 +69,7 @@
   --veil-silver:  rgba(192, 192, 192, .3);
   --active-orange: orange;
   --active-border-orange: darkorange;
+  --ui-warm-tint: #ca7;
 
   /* data semantics */
   --chart-1:                 #3366cc;
