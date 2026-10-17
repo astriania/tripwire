@@ -1,6 +1,4 @@
-// The room lights. Sun and moon on the letterhead, as in DISPATCH: the
-// button shows the light you would switch to. A stored choice wins over the
-// OS; with no choice the page follows the OS and the button still works.
+// Light/dark (sun/moon) toggle in top bar
 var themeToggle = new function() {
 	var KEY = "tripwire.theme", self = this;
 	var media = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
