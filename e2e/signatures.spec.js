@@ -88,7 +88,7 @@ test.describe("signatures", () => {
 		await page.click("#paste-signatures");
 		await page.waitForFunction(() => Object.values((tripwire.client && tripwire.client.signatures) || {}).some(s => /zzq401/i.test(s.signatureID)), null, { timeout: 15000 });
 		await setClipboard(page, "ZZQ-401\tCosmic Signature\tOre Site\tE2E ore\t100.0%\t5.00 AU");
-//await page.waitForTimeout(100);
+		await page.waitForTimeout(100); // Without this, the second paste will land but the UI won't update. todo - work out why
 		await page.click("#paste-signatures");
 		await page.waitForFunction(() => Object.values((tripwire.client && tripwire.client.signatures) || {}).some(s => /zzq401/i.test(s.signatureID) && s.type === "ore"), null, { timeout: 115000 });
 		const matches = (await clientSigIds(page)).filter(id => id === "zzq401");
