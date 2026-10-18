@@ -437,7 +437,7 @@ function addAutomapMass($wormhole, $sig1, $sig2, $automap, $mysql) {
 
     $tracking = $stmt->fetch(PDO::FETCH_ASSOC);
     
-    if($tracking['shipTypeID']) {
+    if($tracking && $tracking['shipTypeID']) {
         $query = 'insert into jumps (wormholeID, characterID, characterName, fromID, toID, shipTypeID, shipType, maskID) values (:wormholeID, :characterID, :characterName, :fromID, :toID, :shipTypeID, :shipType, :maskID)';
         $stmt = $mysql->prepare($query);
         $stmt->bindValue(':wormholeID', $wormhole->id);
