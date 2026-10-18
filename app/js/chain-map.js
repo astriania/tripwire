@@ -191,12 +191,13 @@ var chain = new function() {
 				options.chain.sigNameLocation == 'name_prefix' ?
 					(systemName ? systemName + (system.name ? ' - ' + system.name : '') : (system.name ? system.name : '&nbsp;')) :
 				(system.name ? system.name : '&nbsp;');	
+			const finalAdditionalClasses = [...additionalClasses, system.systemTypeClass.replaceAll(' ', '-') + '-node'];
 
 			var node = {v: id, systemID: systemID };
 			var chainNode = "<div id='node"+id+"' data-nodeid='"+systemID+"'"
 				+(whId ? " data-sigid='"+whId+"'" : '')
 				+(inSigId ? " data-inSigid='"+inSigId+"'" : '')
-				+" class='node " + ((additionalClasses || []).join(' ')) + "'>"
+				+" class='node " + finalAdditionalClasses.join(' ') + "'>"
 							+	"<div class='nodeIcons'>"
 							+		"<div style='float: left;'>"
 							+ systemRendering.renderEffect(system, 'i')
