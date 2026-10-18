@@ -398,15 +398,17 @@ var OccupiedToolTips = new jBox("Tooltip", {
 
 		this.options.position = {x: targetPos.left + this.target[0].offsetWidth, y: targetPos.top - 3};
 
-		tooltip.setContent("&nbsp;");
+		tooltip.setContent("<span class='tip-muted'>Loading pilots\u2026</span>");
 
 		$.ajax({
 			url: "occupants.php",
 			dataType: "JSON",
 			data: "systemID="+systemID,
 			cache: false
+		}).fail(function() {
+			tooltip.setContent("<span class='tip-muted'>Pilots unavailable</span>");
 		}).done(function(data) {
-			if (data && data.occupants) {
+			if (data && data.occupants && data.occupants.length) {
 				var chars = "<table>";
 
 				// Sort by characterName
@@ -422,7 +424,9 @@ var OccupiedToolTips = new jBox("Tooltip", {
 
 				chars += "</table>";
 				tooltip.setContent(chars);
-			}
+			} else {
+				tooltip.setContent("<span class='tip-muted'>No pilots here</span>");
+			}				
 		});
 	}
 });

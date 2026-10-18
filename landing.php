@@ -39,7 +39,6 @@ require_once('settings.php');
 	<!-- Start Wrapper -->
 	<div id="page_wrapper">
 
-<<<<<<< HEAD
 	<!-- Start Header -->
 	<header>
 		<div class="container">
@@ -61,16 +60,6 @@ require_once('settings.php');
 		</div>
 	</header>
 	<!-- End Header -->
-=======
-	<div class="bar">
-		<a class="brand" href="."><?php if (brand_landing_mark()): ?><img class="brand-small" src="<?= brand_h(brand_url(brand_landing_mark())) ?>" alt="<?= brand_h(brand()['corp']) ?>" /><?php else: ?><span class="brand-text"><?= APP_NAME ?></span><?php endif; ?></a>
-		<nav>
-			<a href="https://github.com/mogglemoss/tripwire/issues" target="_blank" rel="noopener">Issues</a>
-			<a href="#privacy">Privacy</a>
-			<a href="#ccp">Fenris copyright</a>
-		</nav>
-	</div>
->>>>>>> 2b83aaf (The copyright notice names Fenris Creations, formerly CCP Games)
 
 	<section class="container">
 
