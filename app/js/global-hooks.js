@@ -66,9 +66,18 @@ $("#chain-zoom-reset").on("click", function() {
 	options.saveDelay(2000);
 });
 
+/** Is a keyboard event on this target in a text field, so we should let the default action proceed?
+Check activeElement too because some events are reported on the document body */
+function isInTextField(target) {
+        var $t = $(target);
+        if ($t.closest("input, textarea, select, [contenteditable=true], [role='dialog'], .ui-dialog, .cke").length > 0) { return true; }
+        var active = document.activeElement;
+        return !!(active && active !== target && (active.isContentEditable || $(active).is("input, textarea, select")));	
+}
+
 $(document).keydown(function(e)	{
 	//Abort - user is in input or textarea
-	if ($(document.activeElement).is("textarea, input")) return;
+	if (isInTextField(e.target)) return;
 
 	// Ctrl key hooks
 	if (e.metaKey || e.ctrlKey) {
