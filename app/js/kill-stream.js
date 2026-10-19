@@ -19,16 +19,6 @@ tripwire.killStream = (function() {
 		return !!(r && r.class);
 	}
 
-	function placeLinks(wormhole) {
-		var $links = $("#infoLinks");
-		if (!$links.length) { return; }
-		if (wormhole) {
-			$links.appendTo("#killStream").addClass("in-killstream-foot").removeClass("in-legend-row");
-		} else if ($("#activityGraphControls").length) {
-			$links.appendTo("#activityGraphControls").addClass("in-legend-row").removeClass("in-killstream-foot");
-		}
-	}
-
 	function kills(systemID) {
 		var hit = cache[systemID];
 		if (hit && Date.now() - hit.at < CACHE_MS) { return Promise.resolve(hit.list); }
@@ -115,7 +105,6 @@ tripwire.killStream = (function() {
 	function refresh(systemID) {
 		var wormhole = isWormhole(systemID);
 		$("#infoWidget").toggleClass("is-wormhole", wormhole);
-		placeLinks(wormhole);
 		if (wormhole) { show(systemID); } else { hide(); }
 	}
 
