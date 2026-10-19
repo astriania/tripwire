@@ -16,7 +16,8 @@
 	var FIELDS = {
 		5: {key: "life", options: [
 			{value: "stable",   label: "Stable"},
-			{value: "critical", label: "EOL"}
+			{value: "critical", label: "EOL"},
+			{value: "<1h", label: "<1h", css: "eol-1h"},
 		]},
 		6: {key: "mass", options: [
 			{value: "stable",   label: "Stable"},
@@ -39,7 +40,7 @@
 		field.options.forEach(function(opt) {
 			var current = wormhole[field.key] === opt.value;
 			$('<button type="button" role="option"></button>')
-				.addClass("inline-chip " + opt.value)
+				.addClass("inline-chip " + (opt.css || opt.value))
 				.attr("aria-selected", current ? "true" : "false")
 				.text(opt.label)
 				.on("click", function(e) {
