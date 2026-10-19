@@ -66,9 +66,18 @@ $("#chain-zoom-reset").on("click", function() {
 	options.saveDelay(2000);
 });
 
+/** Is a keyboard event on this target in a text field, so we should let the default action proceed?
+Check activeElement too because some events are reported on the document body */
+function isInTextField(target) {
+        var $t = $(target);
+        if ($t.closest("input, textarea, select, [contenteditable=true], [role='dialog'], .ui-dialog, .cke").length > 0) { return true; }
+        var active = document.activeElement;
+        return !!(active && active !== target && (active.isContentEditable || $(active).is("input, textarea, select")));	
+}
+
 $(document).keydown(function(e)	{
 	//Abort - user is in input or textarea
-	if ($(document.activeElement).is("textarea, input")) return;
+	if (isInTextField(e.target)) return;
 
 	// Ctrl key hooks
 	if (e.metaKey || e.ctrlKey) {
@@ -219,6 +228,22 @@ $("#search").click(function(e) {
 	}
 });
 
+// The header system picker is a transient filter, not a form users should
+// have to dismiss separately. jQuery UI closes only its suggestion popup on
+// Escape, and selecting a suggestion ordinarily just fills the input. Close
+// the whole picker on Escape and submit a selected system immediately.
+$("body").on("keydown", "#searchSpan input.systemsAutocomplete", function(e) {
+	if (e.key === "Escape" && $("#search").hasClass("active")) {
+		e.preventDefault();
+		$("#search").trigger("click");
+	}
+});
+
+$("body").on("inlinecompleteselect", "#searchSpan input.systemsAutocomplete", function(e, ui) {
+	e.preventDefault();
+	$(this).val(ui.item.value).closest("form").trigger("submit");
+});
+
 $("#toggle-automapper").click(function(e) {
 	e.preventDefault();
 
@@ -255,7 +280,7 @@ $("#wrapper").click(function(e) { // Click outside closes
 	}
 });
 $("#login").click(function(e) { // click inside doesn't
-	e.originalEvent.isInPanel = true;
+	if(e.originalEvent) { e.originalEvent.isInPanel = true; }
 })
 
 
@@ -373,15 +398,17 @@ var OccupiedToolTips = new jBox("Tooltip", {
 
 		this.options.position = {x: targetPos.left + this.target[0].offsetWidth, y: targetPos.top - 3};
 
-		tooltip.setContent("&nbsp;");
+		tooltip.setContent("<span class='tip-muted'>Loading pilots\u2026</span>");
 
 		$.ajax({
 			url: "occupants.php",
 			dataType: "JSON",
 			data: "systemID="+systemID,
 			cache: false
+		}).fail(function() {
+			tooltip.setContent("<span class='tip-muted'>Pilots unavailable</span>");
 		}).done(function(data) {
-			if (data && data.occupants) {
+			if (data && data.occupants && data.occupants.length) {
 				var chars = "<table>";
 
 				for (var x in data.occupants) {
@@ -391,7 +418,9 @@ var OccupiedToolTips = new jBox("Tooltip", {
 
 				chars += "</table>";
 				tooltip.setContent(chars);
-			}
+			} else {
+				tooltip.setContent("<span class='tip-muted'>No pilots here</span>");
+			}				
 		});
 	}
 });

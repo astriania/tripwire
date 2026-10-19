@@ -67935,7 +67935,7 @@ var appData = {
             "jump": 410000000
         },
         "F216": {
-            "life": "16 Hours",
+            "life": "12 Hours",
             "from": [
                 "Class-2",
                 "Class-3",
@@ -67948,21 +67948,21 @@ var appData = {
             "jump": 300000000
         },
         "U372": {
-            "life": "16 Hours",
+            "life": "12 Hours",
             "from": "Null-Sec",
             "leadsTo": "Triglavian",
             "mass": 1000000000,
             "jump": 375000000
         },
         "R081": {
-            "life": "16 Hours",
+            "life": "12 Hours",
             "from": "Triglavian",
             "leadsTo": "Class-4",
             "mass": 1000000000,
             "jump": 375000000
         },
         "X450": {
-            "life": "16 Hours",
+            "life": "12 Hours",
             "from": "Triglavian",
             "leadsTo": "Null-Sec",
             "mass": 1000000000,
@@ -67992,6 +67992,27 @@ var appData = {
             ],
             "leadsTo": "Low-Sec",
             "mass": 1000000000,
+            "jump": 62000000
+        },
+        "I078": {
+            "life": "5 Hours",
+            "from": "Triglavian",
+            "leadsTo": "Triglavian",
+            "mass": 750000000,
+            "jump": 62000000
+        },
+        "L687": {
+            "life": "5 Hours",
+            "from": "Triglavian",
+            "leadsTo": "Triglavian",
+            "mass": 750000000,
+            "jump": 62000000
+        },
+        "O546": {
+            "life": "5 Hours",
+            "from": "Triglavian",
+            "leadsTo": "Triglavian",
+            "mass": 750000000,
             "jump": 62000000
         }
     },

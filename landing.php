@@ -91,7 +91,7 @@ require_once('settings.php');
 		-->
 
 <?php if (!isset($_SESSION['userID'])) { ?>
-			<h1>Have an account?<br/><a href="#login#reg">Log into Tripwire now!</a></h1>
+			<h1>Have an account?<br/><a href="#login#reg" id="login-link">Log into Tripwire now!</a></h1>
 <?php } else { ?>
 			<h1>You're logged in...<br/><a href="?system=">Go to Tripwire now!</a></h1>
 <?php } ?>
@@ -128,8 +128,8 @@ require_once('settings.php');
 <?php if (isset($_SESSION['userID'])) { ?>
 				<h1>You're currently logged in as...</h1>
 				<div style="text-align: center;">
-					<img src="//image.eveonline.com/Character/<?= $_SESSION['characterID'] ?>_128.jpg" />
-					<p><?= $_SESSION['characterName'] ?></p>
+					<img src="//image.eveonline.com/Character/<?= htmlspecialchars($_SESSION['characterID'], ENT_QUOTES, 'UTF-8') ?>_128.jpg" />
+					<p><?= htmlspecialchars($_SESSION['characterName'], ENT_QUOTES, 'UTF-8') ?></p>
 					<p style="padding-top: 25px;">
 						<a href="?system=" class="large_button proceed" style="text-align: center;">
 							<span>Continue</span>
@@ -183,7 +183,7 @@ require_once('settings.php');
 							<br/>
 							<p><input type="checkbox" id="remember" name="remember" /><label for="remember"> Remember me</label></p>
 							<div style="padding-top: 25px;">
-								<button type="submit" class="button white">Login</button>
+								<button type="submit" class="button white" id="login-submit">Login</button>
 								<span style="position: absolute; padding-left: 15px;" class="hidden" id="spinner">
 									<!-- Loading animation container -->
 									<div class="loading">
@@ -206,7 +206,7 @@ require_once('settings.php');
 							<br/>
 							<?= isset($_REQUEST['error']) && $_REQUEST['error'] == 'login-account' ? '<p class="error">No Tripwire account for that character</p><br/>' : '' ?>
 							<?= isset($_REQUEST['error']) && $_REQUEST['error'] == 'login-unknown' ? '<p class="error">Unknown error processing EVE SSO login</p><br/>' : '' ?>
-							<a href="login.php?mode=sso&login=sso<?= isset($_GET['system']) ? '&system=' . $_GET['system'] : '' ?>"><img src="//<?= CDN_DOMAIN ?>/images/landing/eve_sso.png"/></a>
+							<a href="login.php?mode=sso&login=sso<?= isset($_GET['system']) ? '&amp;system=' . htmlspecialchars(rawurlencode($_GET['system']), ENT_QUOTES, 'UTF-8') : '' ?>"><img src="//<?= CDN_DOMAIN ?>/images/landing/eve_sso.png"/></a>
 						</center>
 					</div>
 				</div>
@@ -307,10 +307,7 @@ require_once('settings.php');
 			<!-- End Team -->
 
 			<div id="ccp_copyright" class="page">
-				<p>
-					All Eve Related Materials are Property Of CCP Games
-					EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights are reserved worldwide. All other trademarks are the property of their respective owners. EVE Online, the EVE logo, EVE and all associated logos and designs are the intellectual property of CCP hf. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of CCP hf. CCP is in no way responsible for the content on or functioning of this website, nor can it be liable for any damage arising from the use of this website.
-				</p>
+				<p>All EVE related materials are the property of Fenris Creations, formerly CCP Games. EVE Online&reg; and Fenris Creations&trade; and all related logos and other elements are trademarks of Fenris Creations. &copy; 2026 Fenris Creations. All rights reserved. All other trademarks are the property of their respective owners. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of Fenris Creations. Fenris Creations is in no way responsible for the content on or functioning of this website, nor can it be liable for any damage arising from the use of this website.</p>
 			</div>
 
 			<div id="privacy" class="page">
@@ -387,7 +384,7 @@ require_once('settings.php');
 	<footer class="container">
 		<!--<p>Eon Studios &copy; 2014. All Rights Reserved.</p>-->
 		<p><a href="#privacy">Privacy Policy</a> | <a href="#ccp_copyright">CCP Copyright</a></p>
-		<?php include 'donation_panel.inc'; ?>
+		<?php if (defined('ENABLE_DONATIONS') && ENABLE_DONATIONS) include 'donation_panel.inc'; ?>
 	</footer>
 	
 	<!-- End Footer -->
@@ -395,10 +392,11 @@ require_once('settings.php');
 	</div>
 	<!-- End Wrapper -->
 
-	<?php
-		$analytics_file = dirname( __FILE__ ) . "/analytics.inc.php";
-		if ( file_exists( $analytics_file ) ) include_once( $analytics_file );
-	?>
+<?php
+	$analytics_enabled = defined('ENABLE_ANALYTICS') && ENABLE_ANALYTICS;
+	$analytics_file = dirname( __FILE__ ) . "/analytics.inc.php";
+	if ( $analytics_enabled && file_exists( $analytics_file ) ) include_once( $analytics_file );
+?>
 
 	<!-- Javascripts -->
 	<script type="text/javascript" src="//<?= CDN_DOMAIN ?>/js/landing/jquery-1.7.1.min.js"></script>

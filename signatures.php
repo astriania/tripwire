@@ -229,6 +229,13 @@ function addSignature($signature, $mysql) {
     $success = $stmt->execute();
 
     if ($success) {
+        // Take the new row's id NOW. It used to be read after the statistics
+        // upsert below, and INSERT ... ON DUPLICATE KEY UPDATE resets
+        // lastInsertId(), so every signature added through the dialog came
+        // back to the client with id 0 -- and undo, which removes by id,
+        // sent "remove: [0]", got "Signature ID not found", and stuck.
+        $signature->id = $mysql->lastInsertId();
+
         // Log the user stats
         if ($signature->type != 'wormhole') {
             $query = 'INSERT INTO statistics (userID, characterID, maskID, signatures_added) VALUES (:userID, :characterID, :maskID, 1)
@@ -240,7 +247,6 @@ function addSignature($signature, $mysql) {
             $success = $stmt->execute();
         }
 
-        $signature->id = $mysql->lastInsertId();
         return array(true, $signature, null);
     }
 
@@ -436,7 +442,7 @@ function addAutomapMass($wormhole, $sig1, $sig2, $automap, $mysql) {
 
     $tracking = $stmt->fetch(PDO::FETCH_ASSOC);
     
-    if($tracking['shipTypeID']) {
+    if($tracking && $tracking['shipTypeID']) {
         $query = 'insert into jumps (wormholeID, characterID, characterName, fromID, toID, shipTypeID, shipType, maskID) values (:wormholeID, :characterID, :characterName, :fromID, :toID, :shipTypeID, :shipType, :maskID)';
         $stmt = $mysql->prepare($query);
         $stmt->bindValue(':wormholeID', $wormhole->id);
@@ -449,6 +455,52 @@ function addAutomapMass($wormhole, $sig1, $sig2, $automap, $mysql) {
         $stmt->bindValue(':maskID', $maskID);
         $success = $stmt->execute();
     }
+}
+
+// Two tabs (or a phone and a desktop) with the automapper on see the same
+// jump at the same moment. Each checks only its own cache, finds no
+// connection, and adds one -- and the server used to insert both. This is
+// the one place the two requests meet, so the automap add path takes a
+// named lock for the system pair on this mask, then reuses a connection
+// that already joins the two systems instead of adding a second. Manual
+// adds are left alone: two scanned holes between the same systems is rare
+// but real, and the scanner knows better than the server.
+function automapLock($sig1, $sig2, $mysql) {
+    $a = isset($sig1['systemID']) ? (int)$sig1['systemID'] : 0;
+    $b = isset($sig2['systemID']) ? (int)$sig2['systemID'] : 0;
+    if (!$a || !$b) return null;
+
+    $maskID = (float)$_SESSION['mask'];
+    $name = 'tripwire.automap.' . $maskID . '.' . min($a, $b) . '.' . max($a, $b);
+    $stmt = $mysql->prepare('SELECT GET_LOCK(:name, 5)');
+    $stmt->bindValue(':name', $name);
+    $stmt->execute();
+    $held = (int)$stmt->fetchColumn() === 1;
+
+    // Checked even when the lock timed out: a late dedupe beats none.
+    $query = 'SELECT w.id FROM wormholes w
+                INNER JOIN signatures a ON a.id = w.initialID
+                INNER JOIN signatures b ON b.id = w.secondaryID
+              WHERE w.maskID = :maskID
+                AND ((a.systemID = :a1 AND b.systemID = :b1) OR (a.systemID = :b2 AND b.systemID = :a2))
+              LIMIT 1';
+    $stmt = $mysql->prepare($query);
+    $stmt->bindValue(':maskID', $maskID);
+    $stmt->bindValue(':a1', $a);
+    $stmt->bindValue(':b1', $b);
+    $stmt->bindValue(':a2', $a);
+    $stmt->bindValue(':b2', $b);
+    $stmt->execute();
+    $existing = $stmt->fetchColumn();
+
+    return array('name' => $name, 'held' => $held, 'existing' => $existing ? (int)$existing : null);
+}
+
+function automapUnlock($lock, $mysql) {
+    if (!$lock || !$lock['held']) return;
+    $stmt = $mysql->prepare('SELECT RELEASE_LOCK(:name)');
+    $stmt->bindValue(':name', $lock['name']);
+    $stmt->execute();
 }
 
 if (isset($_POST['signatures'])) {
@@ -464,6 +516,15 @@ if (isset($_POST['signatures'])) {
             if (isset($request['wormhole'])) {
                 // Wormhole
                 if (isset($request['signatures']) && count($request['signatures'])  > 1) {
+                    $automapLock = isset($_REQUEST['automap']) ? automapLock($request['signatures'][0], $request['signatures'][1], $mysql) : null;
+                    if ($automapLock && $automapLock['existing']) {
+                        // The other tab got here first. Success without results, so this
+                        // tab records no undo for a connection it did not make; the next
+                        // sync brings the list whole.
+                        automapUnlock($automapLock, $mysql);
+                        $output['resultSet'][] = array('result' => true, 'value' => 'Connection already mapped');
+                        continue;
+                    }
                     list($result, $signature, $msg) = addSignature($request['signatures'][0], $mysql);
                     if ($result) {
                         $parent = $signature;
@@ -481,6 +542,7 @@ if (isset($_POST['signatures'])) {
                             removeSignature($signature, $mysql);
                         }
                     }
+                    automapUnlock($automapLock, $mysql);
                     $output['resultSet'][] = array('result' => $result, 'value' => $msg);
                     if ($result) {
                       $output['results'][] = array('wormhole' => $wormhole->output(), 'signatures' => array($parent->output(), $child->output()));

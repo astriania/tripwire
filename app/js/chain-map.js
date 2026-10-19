@@ -5,7 +5,7 @@ var chain = new function() {
 	// Third party suppliers should have:
 	//  findLinks(systemId, ids) - Find links from the given system coming from the third party. ids contain a parent and a child ID; the child ID should be incremented for every new connection
 	
-	thirdPartySuppliers = [ eveScout ];
+	// Suppliers register themselves; see app/js/map-data-suppliers/_registry.js
 
 	// Renderer should have:
 	//  ready() - Whether the renderer is initialised and can accept draw calls
@@ -213,12 +213,13 @@ var chain = new function() {
 				options.chain.sigNameLocation == 'name_prefix' ?
 					(systemName ? systemName + (system.name ? ' - ' + system.name : '') : (system.name ? system.name : '&nbsp;')) :
 				(system.name ? system.name : '&nbsp;');	
+			const finalAdditionalClasses = [...additionalClasses, system.systemTypeClass.replaceAll(' ', '-') + '-node'];
 
 			var node = {v: id, systemID: systemID };
 			var chainNode = "<div id='node"+id+"' data-nodeid='"+systemID+"'"
 				+(whId ? " data-sigid='"+whId+"'" : '')
 				+(inSigId ? " data-inSigid='"+inSigId+"'" : '')
-				+" class='node " + ((additionalClasses || []).join(' ')) + "'>"
+				+" class='node " + finalAdditionalClasses.join(' ') + "'>"
 							+	"<div class='nodeIcons'>"
 							+		"<div style='float: left;'>"
 							+ systemRendering.renderEffect(system, 'i')
@@ -360,7 +361,7 @@ var chain = new function() {
 				}
 			}
 			
-			thirdPartySuppliers.forEach(function(supplier) {				
+			mapDataSuppliers.all().forEach(function(supplier) {				
 				const ids = { parentID: parentID, nextChildID: ++childID };
 				const supplierNodes = supplier.findLinks(1 * system[0], ids);
 				if(!supplierNodes) { return; }

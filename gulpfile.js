@@ -17,6 +17,7 @@ var jsFiles = [
         src: [
             'app/js/helpers.js',
 			'app/js/data-mutators/*.js',
+			'app/js/map-data-suppliers/_registry.js',
 			'app/js/map-data-suppliers/*.js',
             'app/js/init.js',
             'app/js/options.js',
@@ -45,7 +46,7 @@ var cssFiles = [
     {
         name: 'app.css',
         nameMin: 'app.min.css',
-        src: ['app/css/base.css', 'app/css/*.css', 'app/css/**/*.css'],
+        src: ['app/css/_tokens.css', 'app/css/base.css', 'app/css/*.css', 'app/css/**/*.css'],
         output: 'public/css'
     }
 ];

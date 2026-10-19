@@ -17,6 +17,7 @@ if(!isset($_SESSION['userID'])) {
 require_once('../config.php');
 require_once('../settings.php');
 require_once('../db.php');
+require_once('../note-html.inc.php');
 
 header('Content-Type: application/json');
 /**
@@ -93,7 +94,13 @@ if (isset($_SESSION['oauth']) && isset($_SESSION['oauth']['tokenExpire'])) {
 			$_SESSION['oauth']['refreshToken'] = $esi->refreshToken;
 			$_SESSION['oauth']['tokenExpire'] = $esi->tokenExpire;
 		} else if ($esi->httpCode >= 400 && $esi->httpCode < 500) {
-			error_log("unable to refresh account oauth token");
+			// The account's own token is dead (revoked, or invalid_grant): the
+			// session has nothing left to act with, so end it. The client treats
+			// a 403 from refresh as "signed out" and returns to the sign-in page.
+			error_log("account oauth token refused (" . $esi->httpCode . "); ending session for user " . $userID);
+			session_destroy();
+			http_response_code(403);
+			exit();
 		}
 	}
 	$output['oauth'] = $_SESSION['oauth'];
@@ -286,7 +293,7 @@ if (isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'init') {
 	$stmt->bindValue(':maskID', $maskID);
 	$stmt->execute();
 	while ($row = $stmt->fetchObject()) {
-		$output['comments'][] = array('id' => $row->id, 'comment' => $row->comment, 'created' => $row->createdDate, 'createdByName' => $row->createdByName, 'modified' => $row->modifiedDate, 'modifiedByName' => $row->modifiedByName, 'sticky' => $row->systemID == 0 ? true : false);
+		$output['comments'][] = array('id' => $row->id, 'comment' => sanitizeNoteHtml($row->comment), 'created' => $row->createdDate, 'createdByName' => $row->createdByName, 'modified' => $row->modifiedDate, 'modifiedByName' => $row->modifiedByName, 'sticky' => $row->systemID == 0 ? true : false);
 	}
 } else if ((isset($_REQUEST['mode']) && ($_REQUEST['mode'] == 'refresh')) || $refresh['sigUpdate'] == true || $refresh['chainUpdate'] == true) {
 	$signatureCount 	= isset($_REQUEST['signatureCount']) ? $_REQUEST['signatureCount'] : null;
@@ -354,7 +361,7 @@ if (isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'init') {
 		$stmt->bindValue(':maskID', $maskID);
 		$stmt->execute();
 		while ($row = $stmt->fetchObject()) {
-			$output['comments'][] = array('id' => $row->id, 'comment' => $row->comment, 'created' => $row->createdDate, 'createdByName' => $row->createdByName, 'modified' => $row->modifiedDate, 'modifiedByName' => $row->modifiedByName, 'sticky' => $row->systemID == 0 ? true : false);
+			$output['comments'][] = array('id' => $row->id, 'comment' => sanitizeNoteHtml($row->comment), 'created' => $row->createdDate, 'createdByName' => $row->createdByName, 'modified' => $row->modifiedDate, 'modifiedByName' => $row->modifiedByName, 'sticky' => $row->systemID == 0 ? true : false);
 		}
 	}
 }
