@@ -81,14 +81,11 @@ tripwire.editor = (function() {
 			.attr("id", id + "-rte")
 			.html($host.html());
 
-		// Paste as text unless it is already ours: pasting from a browser drags
-		// in spans, classes and inline styles that the sanitiser would strip
-		// anyway, leaving surprising gaps.
+		// Sanitise the node after pasting, so the user sees what will actually end up in the comment
 		$area.on("paste", function(e) {
-			var cb = e.originalEvent && e.originalEvent.clipboardData;
-			if (!cb) { return; }
-			e.preventDefault();
-			document.execCommand("insertText", false, cb.getData("text/plain"));
+			setTimeout(function() {
+				$area.html(sanitiseHtml($area.html()));
+			}, 0);
 		});
 
 		$wrap.append($area);
