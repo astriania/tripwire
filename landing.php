@@ -107,16 +107,16 @@ require_once('settings.php');
 				<h1>News</h1>
 				<div id="news">
 					<!-- Self hosters will probably want to put your own news items here -->
-					<h2>Tripwire in 2024</h2>
+					<h2>Tripwire: An EVE Partner</h2>
+					<img src="images/landing/ccp_PartnerBadge2.png" height="58" alt="CCP Partner logo"/>
+					<p>Tripwire is an <b>official CCP Partner Programme</b> community app!</p>
+					
+					<h2>Keeping Up to Date with Tripwire</h2>
 					<p>Detailed information about Tripwire updates will be posted on the Tripwire Discord and in the <a href="https://forums.eveonline.com/t/tripwire-signature-mapping-tool/6024/184">update thread on the Eve Online forums</a>.</p>
 					
-					<p>Some highlights from 2023 releases: improvements to automapping, wormhole selection dropdown (1.22), FW data, map and options updates (1.23), Thera and Turnur data from Eve Scout (1.24). As well as all of the map changes and new ships that CCP add.</p>
+					<p>Tripwire is open source. We are now hosted on <b>Github</b> &ndash; the primary repo is <b><a href="https://github.com/astriania/tripwire">astriania/tripwire</a></b>.</p>
 					
-					<p>Tripwire is also now an <b>official CCP Partner Programme</b> community app!</p>
-					
-					<h2>Tripwire in 2023</h2>
-					<p>Tripwire continues to receive feature updates (in 1.20, it got one click return, an EVE time indicator and closest way home cues from K space) and maintenance (when CCP change how ESI works, or changes the map).</p>
-					
+					<h2>Contributions</h2>
 					<p>Please consider helping fund the server maintenance or contributing to development so we can keep this resource going and up to date!</p>
 				</div>
 
