@@ -23,6 +23,14 @@ tripwire.editor = (function() {
 		{cmd: "underline",         label: "U",  title: "Underline",     style: "text-decoration:underline"},
 		{cmd: "strikeThrough",     label: "S",  title: "Strikethrough", style: "text-decoration:line-through"},
 		{sep: true},
+		{cmd: "fontSize", args: 1, label: "A", title: "Smallest text", style: "font-size: 80%"},
+		{cmd: "fontSize", args: 2, label: "-", title: "X-Small text", style: "min-width: auto; padding: 0 1px"},
+		{cmd: "fontSize", args: 3, label: "-", title: "Small text", style: "min-width: auto; padding: 0 1px"},
+		{cmd: "fontSize", args: 4, label: "A", title: "Normal text", style: "font-size: 100%"},
+		{cmd: "fontSize", args: 5, label: "-", title: "Large text", style: "min-width: auto; padding: 0 1px"},
+		{cmd: "fontSize", args: 6, label: "-", title: "X-Large text", style: "min-width: auto; padding: 0 1px"},
+		{cmd: "fontSize", args: 7, label: "A", title: "Largest text", style: "font-size: 125%"},
+		{sep: true},
 		{cmd: "insertUnorderedList", label: "•", title: "Bulleted list"},
 		{cmd: "insertOrderedList",   label: "1.", title: "Numbered list"},
 		{sep: true},
@@ -58,7 +66,7 @@ tripwire.editor = (function() {
 						if (!/^(https?:|mailto:|\/|#)/i.test(url)) { url = "https://" + url; }
 						document.execCommand("createLink", false, url);
 					} else {
-						document.execCommand(t.cmd, false, null);
+						document.execCommand(t.cmd, false, t.args);
 					}
 				})
 				.appendTo($bar);
