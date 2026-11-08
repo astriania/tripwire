@@ -154,6 +154,11 @@ const ChainMapRendererBase = function(owner) {
 		// Remember the scroll on the outer container so we can reset it if the map didn't change a lot
 		const chainParent = document.getElementById('chainParent');
 		const previousScroll = { x: chainParent.scrollLeft, y: chainParent.scrollTop };
+		// The system the map is rooted on: when it changes, centre on it instead of keeping the old scroll
+		const rootNode = maps.length && maps[0].circles.length && maps[0].circles[0].nodes.length
+			? maps[0].circles[0].nodes[0] : null;
+		const rootSystemID = rootNode ? 1 * rootNode.systemID : null;
+		const rootChanged = rootSystemID !== null && rootSystemID !== _this.lastCentredSystemID;
 		const CANVAS_SCALE = 1;
 		for(var mi = 0; mi < maps.length; mi++) {
 			const map = maps[mi];
@@ -249,9 +254,20 @@ const ChainMapRendererBase = function(owner) {
 			else { break; }
 		}
 		
-		// Set scroll back to where it was
-		chainParent.scrollLeft = previousScroll.x;
-		chainParent.scrollTop = previousScroll.y;
+		// Same root: put the scroll back where it was. New root: centre it.
+		// Scroll the map's own box rather than scrollIntoView, which also scrolls the page.
+		if (rootChanged && rootNode && rootNode.domNode) {
+			_this.lastCentredSystemID = rootSystemID;
+			const nodePosition = positionRelativeTo(rootNode.domNode, chainParent);	// allows for the map's zoom
+			const chainZoom = 1 * (window.getComputedStyle(chainParent).getPropertyValue("zoom") || "1");
+			const nodeRect = rootNode.domNode.getBoundingClientRect();
+			const parentRect = chainParent.getBoundingClientRect();
+			chainParent.scrollLeft = nodePosition.left + nodeRect.width / chainZoom / 2 - parentRect.width / chainZoom / 2;
+			chainParent.scrollTop  = nodePosition.top  + nodeRect.height / chainZoom / 2 - parentRect.height / chainZoom / 2;
+		} else {
+			chainParent.scrollLeft = previousScroll.x;
+			chainParent.scrollTop = previousScroll.y;
+		}
 	}
 	
 	function drawConnections(ctx, nodes, drawFunction) {
