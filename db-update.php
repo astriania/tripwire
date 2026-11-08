@@ -30,21 +30,25 @@ function update_database() {
 		// You would expect this to be in a transaction, but in MySQL, create/alter queries break a transaction anyway
 		// This is still in order, new diffs MUST go at the end, including when merging
 		try {
+			error_log('Notice: Database diff update from ' . $version . ' to ' . $new_version . ' starting');
 			for($i = $version; $i < $new_version; $i++) {
 				$diff = $db_update_diffs[$i];
-
-				$stmt = $mysql_update->prepare('select count(*) from update_history where diff_name=:name');
-				$stmt->execute(['name' => $diff['name']]);
-				$count = $stmt->fetchColumn();
-				if($count > 0) {
-					error_log('Warning: Diff ' . $diff['name'] . ' already ran, skipping');
-					continue;
+				
+				if($i > 0) { // First time, this table doesn't even exist so the query fails
+					$stmt = $mysql_update->prepare('select count(*) from update_history where diff_name=:name');
+					$stmt->execute(['name' => $diff['name']]);
+					$count = $stmt->fetchColumn();
+					if($count > 0) {
+						error_log('Warning: Diff ' . $diff['name'] . ' already ran, skipping');
+						continue;
+					}
 				}
 				
 				$stmt = $mysql_update->prepare($diff['diff']);
 				$stmt->execute();	
-				$stmt = $mysql_update->prepare('insert into update_history (diff_name, applied_at) values (:diff_name, :applied_at) on duplicate key update diff_index=diff_index');
+				$stmt = $mysql_update->prepare('insert into update_history (diff_name, applied_at) values (:diff_name, :applied_at) on duplicate key update diff_name=diff_name');
 				$stmt->execute(['diff_name' => $diff['name'], 'applied_at' => date("Y-m-d H:i:s")]);
+				error_log('Diff ' . $diff['name'] . ' executed successfully');
 				
 				// Update the version file
 				$run = $i + 1;
