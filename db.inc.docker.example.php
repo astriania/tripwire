@@ -27,3 +27,11 @@ try {
     http_response_code(503);
     exit('Database unavailable');
 }
+
+// Tripwire updates its own database when a page loads, using this connection.
+// Use root: some updates alter the scheduled events, which the seed created as
+// root, and MySQL 8 only allows that with the SYSTEM_USER privilege.
+$mysql_update = create_db_connection('mysql:host=mysql;dbname=tripwire_database;charset=utf8',
+    'root',
+    'rootpasswordfromdockercompose'
+);
