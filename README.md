@@ -17,6 +17,7 @@
 **Setup: (Bare Metal, for docker see below)** 
 
 - Create a `tripwire` database using the export located in `.docker/mysql/tripwire.sql`
+- Tripwire updates its own database when a page loads. Set `$mysql_update` in `db.inc.php` (see `db.inc.example.php`); that user needs SYSTEM_USER or must be root.
 - Upgrading an existing Tripwire database: back it up, then run `mysql --database=tripwire < tripwire_update.sql`. The script is cumulative and non-destructive (it never drops, truncates or recreates application tables) and can be re-run safely.
 - For development: create an EVE dump database, define it's name later in `config.php`. Download from: https://www.fuzzwork.co.uk/dump/ To download the latest use the following link: https://www.fuzzwork.co.uk/dump/mysql-latest.tar.bz2. You do not need a copy of the SDE to run Tripwire (since 1.21).
 - Clone the Tripwire repo to where you are going to serve to the public OR manually download repo and copy files yourself
@@ -101,6 +102,7 @@ SSO_SECRET=
   - `host=` should be `mysql`
   - `dbname=` should be `tripwire_database`
   - `update `username` and `password` with the user name and password from docker-compose.yml
+  - set the `$mysql_update` password to MYSQL_ROOT_PASSWORD from docker-compose.yml (Tripwire updates its own database with it)
 ```
 
 **config.php**
