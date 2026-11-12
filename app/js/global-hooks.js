@@ -323,7 +323,7 @@ var Tooltips = new jBox("Tooltip", {
 var SystemActivityToolTips = new jBox("Tooltip", {
 	getContent: "data-tooltip",
 	position: {y: "bottom"},
-	appendTo: $("#chainParent"),
+	appendTo: $("#chainMap"),
 	reposition: true,
 	repositionOnOpen: true,
 	createOnInit: true,
@@ -343,7 +343,7 @@ var SystemActivityToolTips = new jBox("Tooltip", {
 var WormholeRouteToolTips = new jBox("Tooltip", {
 	getContent: "data-tooltip",
 	position: {y: "bottom"},
-	appendTo: $("#chainParent"),
+	appendTo: $("#chainMap"),
 	reposition: true,
 	repositionOnOpen: true,
 	createOnInit: true,
@@ -362,7 +362,7 @@ var WormholeTypeToolTips = new jBox("Tooltip", {
 	attach: $("#chainMap .whEffect[data-icon]"),
 	getContent: "data-tooltip",
 	position: {x: "left", y: "center"},
-	appendTo: $("#chainParent"),
+	appendTo: $("#chainMap"),
 	outside: "x",
 	adjustDistance: 100,
 	responsiveWidth: false,
@@ -380,7 +380,7 @@ var WormholeTypeToolTips = new jBox("Tooltip", {
 var OccupiedToolTips = new jBox("Tooltip", {
 	pointer: "top:-3",
 	position: {x: "right", y: "center"},
-	appendTo: $("#chainParent"),
+	appendTo: $("#chainMap"),
 	outside: "x",
 	minWidth: 100,
 	animation: "move",
