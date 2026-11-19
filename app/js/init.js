@@ -11,8 +11,19 @@ var server = $("meta[name=server]").attr("content");
 var app_name = $("meta[name=app_name]").attr("content");
 var version = $("meta[name=version]").attr("content");
 
-// Reload with default system if it was invalid
-if(!viewingSystemID) { window.stop(); window.location = '?system=Jita'; }
+// No system given (e.g. straight after login): start on Jita without a reload,
+// and switch to the tracked pilot's system when it arrives (see eve.js).
+// An invalid system still reloads to Jita.
+var defaultToTrackedSystem = !viewingSystem;
+var defaultSystemID = null;
+if (defaultToTrackedSystem) {
+	viewingSystem = "Jita";
+	viewingSystemID = findSystemID(viewingSystem);
+	defaultSystemID = viewingSystemID;
+} else if (!viewingSystemID) {
+	window.stop();
+	window.location = '?system=Jita';
+}
 
 // Use this to test performance of javascript code lines
 // var startTime = window.performance.now();
