@@ -1,8 +1,20 @@
+// Use the tracked pilot's first known system as the view, once, if the user
+// arrived without a system and hasn't moved off the starting one.
+function shouldUseTrackedSystemAsInitialView(defaultPending, trackedSystemID, viewingID, bootstrapID) {
+    return !!defaultPending && trackedSystemID != null && viewingID == bootstrapID;
+}
+
 // Handles data from EVE in-game data
 tripwire.EVE = function(EVE, characterChange) {
     var systemChange = this.client.EVE && this.client.EVE.systemChange || false;
 
     if (EVE) {
+        var trackedSystemID = EVE.systemID && tripwire.systems[EVE.systemID] ? EVE.systemID : null;
+        if (shouldUseTrackedSystemAsInitialView(defaultToTrackedSystem, trackedSystemID, viewingSystemID, defaultSystemID)) {
+            defaultToTrackedSystem = false;
+            if (trackedSystemID != viewingSystemID) { tripwire.systemChange(trackedSystemID); }
+        }
+
         // Automapper
         if (!characterChange) {
             // Did the system change or did it previously and we have yet to try an autoMapper call?
