@@ -44,3 +44,43 @@ test("every chain layout places the cards clear of each other", async ({ page })
 		await page.evaluate((r) => { options.chain.renderer = r; chain.useRenderer(r); chain.redraw(); }, original);
 	}
 });
+
+// The first draw waits for the charts to load. A poll that lands meanwhile
+// says who is where and carries no map; it used to take the waiting draw's
+// place, and the chain stayed blank until someone changed a signature.
+test("a draw that has to wait is not lost to the next one", async ({ page }) => {
+	await login(page, "Perimeter");
+	await page.waitForFunction(() => chain.data.rawMap, null, { timeout: 15000 });
+	const seen = await page.evaluate(async () => {
+		const real = chain.renderer, drawn = [], keep = $.extend(true, {}, chain.data.rawMap), sleep = ms => new Promise(r => setTimeout(r, ms));
+		let ready = false;
+		const size = () => Object.keys(chain.data.rawMap || {}).length;
+		// Three maps that can be told apart by their size.
+		const some = n => { const o = {}; Object.keys(keep).slice(0, n).forEach(k => { o[k] = $.extend(true, {}, keep[k]); }); return o; };
+		chain.renderer = { ready: () => ready, switchTo() {}, switchFrom() {}, draw: map => drawn.push(map.rows.length) };
+		const useRenderer = chain.useRenderer; chain.useRenderer = () => {};
+		const out = { maps: Object.keys(keep).length };
+		try {
+			chain.data.rawMap = undefined;
+			chain.draw({ map: some(3), occupied: null, flares: null });
+			chain.draw({ map: null, occupied: [], flares: null });          // the poll
+			await sleep(250); ready = true; await sleep(250);
+			out.poll = size();
+			ready = false;
+			chain.draw({ map: some(2) });
+			chain.redraw();                                                 // what is drawn now is older than what waits
+			await sleep(250); ready = true; await sleep(250);
+			out.redraw = size();
+			ready = false;
+			chain.draw({ map: some(3) });
+			chain.draw({ map: some(1) });                                   // and a newer map still wins
+			await sleep(250); ready = true; await sleep(250);
+			out.newer = size();
+			const n = drawn.length; await sleep(400);
+			out.settled = drawn.length === n;                               // nothing left going round
+		} finally { chain.renderer = real; chain.useRenderer = useRenderer; chain.draw({ map: keep }); }
+		return out;
+	});
+	test.skip(seen.maps < 3, "needs a map with three connections");
+	expect(seen).toEqual({ maps: seen.maps, poll: 3, redraw: 2, newer: 1, settled: true });
+});
